@@ -2,49 +2,75 @@ export const useMetronome = () => {
   const isPlaying = useState<boolean>('isPlaying', () => false)
   const bpm = useState<number>('bpm', () => 80)
   const beatCount = useState<number>('beatCount', () => 0)
-  const timeoutId = useState<number | null>('timeoutId', () => null)
+
+  const audioContext = ref<AudioContext | null>(null)
+  const tickBuffer = ref<AudioBuffer | null>(null)
+
+  const nextNoteTime = ref(0)
+  const schedulerInterval = ref<number | null>(null)
+  const lookahead = 25.0
+  const scheduleAheadTime = 0.1
 
   const wasPlaying = ref(false)
   const debounceTimeout = ref<number | null>(null)
 
-  const tickSound = '/click.mp3'
+  const loadTickSound = async () => {
+    if (!audioContext.value) return
+    const response = await fetch('/click.mp3')
+    const arrayBuffer = await response.arrayBuffer()
+    tickBuffer.value = await audioContext.value.decodeAudioData(arrayBuffer)
+  }
 
-  const playTick = () => {
-    const tick = new Audio(tickSound)
-    tick.volume = 1
-    tick.play()
+  const scheduleNote = (time: number) => {
+    if (!audioContext.value || !tickBuffer.value) return
+    const source = audioContext.value.createBufferSource()
+    source.buffer = tickBuffer.value
+    source.connect(audioContext.value.destination)
+    source.start(time)
     beatCount.value++
   }
 
-  let nextTickTime = performance.now()
+  const scheduler = () => {
+    if (!audioContext.value) return
+    const currentTime = audioContext.value.currentTime
 
-  const scheduleTick = () => {
-    const interval = 60000 / bpm.value
-    const now = performance.now()
+    while (nextNoteTime.value < currentTime + scheduleAheadTime) {
+      scheduleNote(nextNoteTime.value)
 
-    nextTickTime += interval
-
-    playTick()
-
-    const delay = nextTickTime - performance.now()
-
-    timeoutId.value = window.setTimeout(scheduleTick, Math.max(0, delay))
+      const secondsPerBeat = 60.0 / bpm.value
+      nextNoteTime.value += secondsPerBeat
+    }
   }
 
-  const start = () => {
-    nextTickTime = performance.now()
+  const start = async () => {
+    if (!audioContext.value) {
+      audioContext.value = new AudioContext()
+      await loadTickSound()
+    }
+
     beatCount.value = 0
+    nextNoteTime.value = audioContext.value.currentTime + 0.05
+    schedulerInterval.value = window.setInterval(scheduler, lookahead)
     isPlaying.value = true
-    scheduleTick()
   }
 
   const stop = () => {
-    if (timeoutId.value) {
-      clearTimeout(timeoutId.value)
-      timeoutId.value = null
+    if (schedulerInterval.value) {
+      clearInterval(schedulerInterval.value)
+      schedulerInterval.value = null
     }
     isPlaying.value = false
     beatCount.value = 0
+  }
+
+  const toggle = () => {
+    if (isPlaying.value) {
+      stop()
+      wasPlaying.value = false
+    } else {
+      start()
+      wasPlaying.value = true
+    }
   }
 
   const handleBpmChange = () => {
@@ -61,16 +87,6 @@ export const useMetronome = () => {
     }, 300)
   }
 
-  const toggle = () => {
-    if (isPlaying.value) {
-      stop()
-      wasPlaying.value = false
-    } else {
-      start()
-      wasPlaying.value = true
-    }
-  }
-
   watch(bpm, handleBpmChange)
   onBeforeUnmount(() => stop())
 
@@ -78,8 +94,8 @@ export const useMetronome = () => {
     isPlaying,
     bpm,
     beatCount,
+    toggle,
     start,
     stop,
-    toggle,
   }
 }

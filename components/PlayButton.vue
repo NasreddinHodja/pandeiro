@@ -1,16 +1,23 @@
 <script setup lang="ts">
-const playing = defineModel<boolean>("playing");
-const togglePlaying = () => {
-  playing.value = !playing.value;
+defineProps<{
+  isPlaying: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: "toggle"): void;
+}>();
+
+const toggleIsPlaying = () => {
+  emit("toggle");
 };
 </script>
 
 <template>
   <div
     class="flex items-center justify-center px-4 py-2 bg-white text-black"
-    @click="togglePlaying"
+    @click="toggleIsPlaying"
   >
-    <div v-if="!playing" class="flex items-center justify-center">
+    <div v-if="!isPlaying" class="flex items-center justify-center">
       <Icon name="mdi:play" class="w-6 h-6" />
     </div>
     <div v-else class="flex items-center justify-center">

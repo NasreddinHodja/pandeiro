@@ -13,6 +13,9 @@ const { isPlaying, bpm, toggle } = useMetronome();
           <input
             v-model.number="bpm"
             type="number"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            step="1"
             min="40"
             max="240"
             class="w-24 bg-black py-1 pl-2 border-2 border-black focus:outline-none focus:border-white hover:border-white"

@@ -10,7 +10,7 @@ defineProps<{
     <div
       :class="[
         'flex h-10 items-center justify-center',
-        countDown > -1 ? 'visible' : 'invisible',
+        countDown > 0 ? 'visible' : 'invisible',
       ]"
     >
       <span class="px-6 py-2 bg-white text-black text-3xl">{{

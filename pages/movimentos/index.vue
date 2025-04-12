@@ -36,7 +36,7 @@ watch(
   () => beatCount.value,
   (newCount) => {
     const beatsPassed = newCount - lastBeatCount.value;
-    if (countDown.value > -1) countDown.value -= 1;
+    if (countDown.value > 0) countDown.value -= 1;
     if (beatsPassed >= beatsForCurrentMovement.value) {
       pickNewMovement();
     }

@@ -13,7 +13,7 @@ const isFirst = ref(true);
 const getRandomBeatsForBPM = (bpm: number) => {
   const secondsPerBeat = 60 / bpm;
   const minSeconds = 4;
-  const maxSeconds = 20;
+  const maxSeconds = 4;
 
   const minBeats = Math.ceil(minSeconds / secondsPerBeat);
   const maxBeats = Math.floor(maxSeconds / secondsPerBeat);
@@ -26,7 +26,10 @@ const pickNewMovement = () => {
   const choices = movements.filter((m) => m !== currentMovement);
   const nextIndexInChoices = Math.floor(Math.random() * choices.length);
   let nextMovement = choices[nextIndexInChoices];
-  if (isFirst.value) nextMovement = "2";
+  if (isFirst.value) {
+    nextMovement = "2";
+    isFirst.value = false;
+  }
 
   currentMovementIndex.value = movements.indexOf(nextMovement);
   beatsForCurrentMovement.value = getRandomBeatsForBPM(bpm.value) + 4;

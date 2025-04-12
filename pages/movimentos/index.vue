@@ -4,10 +4,11 @@ const { isPlaying, bpm, beatCount, toggle } = useMetronome();
 const COUNTDOWN_FROM = 4;
 
 const movements = ["1", "2", "3", "4"];
-const currentMovementIndex = ref(0);
+const currentMovementIndex = ref(1);
 const beatsForCurrentMovement = ref(0);
 const lastBeatCount = ref(0);
 const countDown = ref(COUNTDOWN_FROM);
+const isFirst = ref(true);
 
 const getRandomBeatsForBPM = (bpm: number) => {
   const secondsPerBeat = 60 / bpm;
@@ -24,7 +25,8 @@ const pickNewMovement = () => {
   const currentMovement = movements[currentMovementIndex.value];
   const choices = movements.filter((m) => m !== currentMovement);
   const nextIndexInChoices = Math.floor(Math.random() * choices.length);
-  const nextMovement = choices[nextIndexInChoices];
+  let nextMovement = choices[nextIndexInChoices];
+  if (isFirst.value) nextMovement = "2";
 
   currentMovementIndex.value = movements.indexOf(nextMovement);
   beatsForCurrentMovement.value = getRandomBeatsForBPM(bpm.value) + 4;

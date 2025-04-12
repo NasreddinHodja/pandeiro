@@ -12,16 +12,16 @@ defineProps<{
       <Icon name="mdi:circle-outline" class="w-10 h-10" />
     </div>
     <div v-else-if="movement === '2'" class="flex gap-4">
-      <Icon name="mdi:circle" class="w-10 h-10" />
-      <Icon name="mdi:circle" class="w-10 h-10" />
+      <Icon name="mdi:circle-outline" class="w-10 h-10" />
+      <Icon name="mdi:circle-outline" class="w-10 h-10" />
     </div>
     <div v-else-if="movement === '3'" class="flex gap-4">
-      <Icon name="mdi:circle" class="w-10 h-10" />
       <Icon name="mdi:circle-outline" class="w-10 h-10" />
+      <Icon name="mdi:circle" class="w-10 h-10" />
     </div>
     <div v-else-if="movement === '4'" class="flex gap-4">
-      <Icon name="mdi:circle-outline" class="w-10 h-10" />
-      <Icon name="mdi:circle-outline" class="w-10 h-10" />
+      <Icon name="mdi:circle" class="w-10 h-10" />
+      <Icon name="mdi:circle" class="w-10 h-10" />
     </div>
   </div>
 </template>

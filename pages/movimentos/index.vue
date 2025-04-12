@@ -13,7 +13,7 @@ const isFirst = ref(true);
 const getRandomBeatsForBPM = (bpm: number) => {
   const secondsPerBeat = 60 / bpm;
   const minSeconds = 4;
-  const maxSeconds = 4;
+  const maxSeconds = 20;
 
   const minBeats = Math.ceil(minSeconds / secondsPerBeat);
   const maxBeats = Math.floor(maxSeconds / secondsPerBeat);

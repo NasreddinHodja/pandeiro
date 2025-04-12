@@ -2,7 +2,7 @@ export const useMetronome = () => {
   const isPlaying = useState<boolean>('isPlaying', () => false)
   const bpm = useState<number>('bpm', () => 80)
   const beatCount = useState<number>('beatCount', () => 0)
-  const intervalId = useState<number | null>('intervalId', () => null)
+  const timeoutId = useState<number | null>('timeoutId', () => null)
 
   const wasPlaying = ref(false)
   const debounceTimeout = ref<number | null>(null)
@@ -16,18 +16,32 @@ export const useMetronome = () => {
     beatCount.value++
   }
 
-  const start = () => {
+  let nextTickTime = performance.now()
+
+  const scheduleTick = () => {
     const interval = 60000 / bpm.value
-    beatCount.value = 0
+    const now = performance.now()
+
+    nextTickTime += interval
+
     playTick()
-    intervalId.value = setInterval(playTick, interval)
+
+    const delay = nextTickTime - performance.now()
+
+    timeoutId.value = window.setTimeout(scheduleTick, Math.max(0, delay))
+  }
+
+  const start = () => {
+    nextTickTime = performance.now()
+    beatCount.value = 0
     isPlaying.value = true
+    scheduleTick()
   }
 
   const stop = () => {
-    if (intervalId.value) {
-      clearInterval(intervalId.value)
-      intervalId.value = null
+    if (timeoutId.value) {
+      clearTimeout(timeoutId.value)
+      timeoutId.value = null
     }
     isPlaying.value = false
     beatCount.value = 0
@@ -50,15 +64,14 @@ export const useMetronome = () => {
   const toggle = () => {
     if (isPlaying.value) {
       stop()
-      wasPlaying.value = false;
+      wasPlaying.value = false
     } else {
       start()
-      wasPlaying.value = true;
+      wasPlaying.value = true
     }
   }
 
   watch(bpm, handleBpmChange)
-
   onBeforeUnmount(() => stop())
 
   return {

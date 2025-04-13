@@ -48,20 +48,25 @@ watch(
   }
 );
 
+const handleSpace = (e: KeyboardEvent) => {
+  if (e.code === "Space") {
+    e.preventDefault();
+    toggle();
+  }
+};
+
 onMounted(() => {
   pickNewMovement();
 
-  const handleKey = (e: KeyboardEvent) => {
-    if (e.code === "Space") {
-      e.preventDefault();
-      toggle();
-    }
-  };
-  window.addEventListener("keydown", handleKey);
+  window.addEventListener("keydown", handleSpace);
+});
 
-  onBeforeUnmount(() => {
-    window.removeEventListener("keydown", handleKey);
-  });
+onUnmounted(() => {
+  window.addEventListener("keydown", handleSpace);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleSpace);
 });
 </script>
 

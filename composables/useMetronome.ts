@@ -1,4 +1,6 @@
-export const useMetronome = () => {
+let metronomeInstance: ReturnType<typeof createMetronome> | null = null;
+
+export const createMetronome = () => {
   const isPlaying = useState<boolean>("isPlaying", () => false);
   const bpm = useState<number>("bpm", () => 80);
   const beatCount = useState<number>("beatCount", () => 0);
@@ -31,7 +33,7 @@ export const useMetronome = () => {
   };
 
   const scheduler = () => {
-    if (!audioContext.value) return;
+    if (!audioContext.value || audioContext.value.state !== "running") return;
     const currentTime = audioContext.value.currentTime;
 
     while (nextNoteTime.value < currentTime + scheduleAheadTime) {
@@ -43,6 +45,8 @@ export const useMetronome = () => {
   };
 
   const start = async () => {
+    if (typeof window === "undefined") return; // skip AudioContext creation on SSR
+
     if (!audioContext.value) {
       audioContext.value = new AudioContext();
       await loadTickSound();
@@ -55,21 +59,32 @@ export const useMetronome = () => {
   };
 
   const stop = () => {
-    if (schedulerInterval.value) {
+    if (schedulerInterval.value !== null) {
       clearInterval(schedulerInterval.value);
       schedulerInterval.value = null;
     }
+
+    if (audioContext.value) {
+      audioContext.value
+        .close()
+        .then(() => {
+          audioContext.value = null;
+        })
+        .catch(err => {
+          console.error("Error closing AudioContext:", err);
+        });
+    }
+
     isPlaying.value = false;
     beatCount.value = 0;
+    nextNoteTime.value = 0;
   };
 
   const toggle = () => {
     if (isPlaying.value) {
       stop();
-      wasPlaying.value = false;
     } else {
       start();
-      wasPlaying.value = true;
     }
   };
 
@@ -89,15 +104,13 @@ export const useMetronome = () => {
 
   watch(bpm, handleBpmChange);
 
-  onMounted(() => {
-    stop();
-    isPlaying.value = false;
-  });
-
-  onBeforeUnmount(() => {
-    stop();
-    isPlaying.value = false;
-  });
+  const route = useRoute();
+  watch(
+    () => route.fullPath,
+    () => {
+      stop();
+    }
+  );
 
   return {
     isPlaying,
@@ -107,4 +120,11 @@ export const useMetronome = () => {
     start,
     stop,
   };
+};
+
+export const useMetronome = () => {
+  if (!metronomeInstance) {
+    metronomeInstance = createMetronome();
+  }
+  return metronomeInstance;
 };

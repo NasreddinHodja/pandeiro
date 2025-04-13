@@ -7,7 +7,7 @@ const emit = defineEmits<{
   (e: "toggle"): void;
 }>();
 
-const toggleIsPlaying = () => {
+const toggle = () => {
   emit("toggle");
 };
 </script>
@@ -15,7 +15,7 @@ const toggleIsPlaying = () => {
 <template>
   <div
     class="flex items-center justify-center px-4 py-2 bg-white text-black"
-    @click="toggleIsPlaying"
+    @click="toggle"
   >
     <div v-if="!isPlaying" class="flex items-center justify-center">
       <Icon name="mdi:play" class="w-6 h-6" />

@@ -88,7 +88,7 @@ export const useMetronome = () => {
   }
 
   watch(bpm, handleBpmChange)
-  onBeforeUnmount(() => stop())
+  onBeforeUnmount(() => { stop(); isPlaying.value = false })
 
   return {
     isPlaying,

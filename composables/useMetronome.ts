@@ -18,7 +18,7 @@ export const createMetronome = () => {
 
   const loadTickSound = async () => {
     if (!audioContext.value) return;
-    const response = await fetch("/click_new.mp3");
+    const response = await fetch("/click.mp3");
     const arrayBuffer = await response.arrayBuffer();
     tickBuffer.value = await audioContext.value.decodeAudioData(arrayBuffer);
   };

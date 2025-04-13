@@ -104,14 +104,6 @@ export const createMetronome = () => {
 
   watch(bpm, handleBpmChange);
 
-  const route = useRoute();
-  watch(
-    () => route.fullPath,
-    () => {
-      stop();
-    }
-  );
-
   return {
     isPlaying,
     bpm,

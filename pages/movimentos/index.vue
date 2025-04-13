@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { isPlaying, bpm, beatCount, toggle } = useMetronome();
+const { isPlaying, bpm, beatCount, toggle, stop } = useMetronome();
 
 const COUNTDOWN_FROM = 4;
 
@@ -56,17 +56,17 @@ const handleSpace = (e: KeyboardEvent) => {
 };
 
 onMounted(() => {
+  stop();
+
   pickNewMovement();
 
   window.addEventListener("keydown", handleSpace);
 });
 
 onUnmounted(() => {
-  window.addEventListener("keydown", handleSpace);
-});
+  stop();
 
-onBeforeUnmount(() => {
-  window.removeEventListener("keydown", handleSpace);
+  window.addEventListener("keydown", handleSpace);
 });
 </script>
 

@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const { isPlaying, bpm, toggle } = useMetronome();
+const { isPlaying, bpm, toggle, stop } = useMetronome();
+
+onMounted(() => stop());
+onUnmounted(() => stop());
 </script>
 
 <template>

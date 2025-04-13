@@ -5,7 +5,7 @@ const { isPlaying, bpm, toggle } = useMetronome();
 <template>
   <div class="flex flex-col gap-4 lg:p-12 p-6 text-white border-4 border-white">
     <div class="flex items-center gap-4">
-      <PlayButton :isPlaying="isPlaying" @toggle="toggle" />
+      <PlayButton :is-playing="isPlaying" @toggle="toggle" />
 
       <div class="flex flex-col sm:flex-row sm:items-center gap-4 w-full">
         <div class="flex items-center gap-3 justify-between">

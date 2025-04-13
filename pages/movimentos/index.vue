@@ -23,7 +23,7 @@ const getRandomBeatsForBPM = (bpm: number) => {
 
 const pickNewMovement = () => {
   const currentMovement = movements[currentMovementIndex.value];
-  const choices = movements.filter((m) => m !== currentMovement);
+  const choices = movements.filter(m => m !== currentMovement);
   const nextIndexInChoices = Math.floor(Math.random() * choices.length);
   let nextMovement = choices[nextIndexInChoices];
   if (isFirst.value) {
@@ -39,7 +39,7 @@ const pickNewMovement = () => {
 
 watch(
   () => beatCount.value,
-  (newCount) => {
+  newCount => {
     const beatsPassed = newCount - lastBeatCount.value;
     if (countDown.value > 0) countDown.value -= 1;
     if (beatsPassed >= beatsForCurrentMovement.value) {
@@ -67,10 +67,7 @@ onMounted(() => {
 
 <template>
   <div class="h-full w-full flex flex-col items-center justify-center gap-10">
-    <MovementsCueCard
-      :currentMovement="movements[currentMovementIndex]"
-      :countDown="countDown"
-    />
-    <PlayButton :isPlaying="isPlaying" @toggle="toggle" />
+    <MovementsCueCard :current-movement="movements[currentMovementIndex]" :count-down="countDown" />
+    <PlayButton :is-playing="isPlaying" @toggle="toggle" />
   </div>
 </template>

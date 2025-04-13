@@ -13,10 +13,7 @@ const toggle = () => {
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center px-4 py-2 bg-white text-black"
-    @click="toggle"
-  >
+  <div class="flex items-center justify-center px-4 py-2 bg-white text-black" @click="toggle">
     <div v-if="!isPlaying" class="flex items-center justify-center">
       <Icon name="mdi:play" class="w-6 h-6" />
     </div>

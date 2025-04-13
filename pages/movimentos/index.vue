@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { isPlaying, bpm, beatCount, toggle, stop } = useMetronome();
+const { isPlaying, bpm, beatCount, toggle } = useMetronome();
 
 const COUNTDOWN_FROM = 4;
 
@@ -37,9 +37,16 @@ const pickNewMovement = () => {
   countDown.value = COUNTDOWN_FROM;
 };
 
+const ignoreFirstBeat = ref(true);
+
 watch(
   () => beatCount.value,
   newCount => {
+    if (ignoreFirstBeat.value) {
+      ignoreFirstBeat.value = false;
+      return;
+    }
+
     const beatsPassed = newCount - lastBeatCount.value;
     if (countDown.value > 0) countDown.value -= 1;
     if (beatsPassed >= beatsForCurrentMovement.value) {
@@ -48,25 +55,15 @@ watch(
   }
 );
 
-const handleSpace = (e: KeyboardEvent) => {
-  if (e.code === "Space") {
-    e.preventDefault();
-    toggle();
-  }
-};
-
 onMounted(() => {
-  stop();
+  if (isPlaying.value) toggle();
+  lastBeatCount.value = beatCount.value;
 
   pickNewMovement();
-
-  window.addEventListener("keydown", handleSpace);
 });
 
 onUnmounted(() => {
-  stop();
-
-  window.addEventListener("keydown", handleSpace);
+  if (isPlaying.value) toggle();
 });
 </script>
 

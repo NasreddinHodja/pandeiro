@@ -42,6 +42,7 @@ const ignoreFirstBeat = ref(true);
 watch(
   () => beatCount.value,
   newCount => {
+    if (beatCount.value === 0) return;
     if (ignoreFirstBeat.value) {
       ignoreFirstBeat.value = false;
       return;

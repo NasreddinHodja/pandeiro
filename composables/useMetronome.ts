@@ -2,9 +2,9 @@ let metronomeInstance: ReturnType<typeof createMetronome> | null = null;
 
 export const createMetronome = () => {
   const isPlaying = useState<boolean>("isPlaying", () => false);
-  const bpm = useState<number>("bpm", () => 80);
+  const bpm = useCookie<number>("bpm", { default: () => 80 });
+  const volume = useCookie<number>("volume", { default: () => 75 });
   const beatCount = useState<number>("beatCount", () => 0);
-  const volume = useState<number>("volume", () => 75);
 
   const audioContext = ref<AudioContext | null>(null);
   const tickBuffer = ref<AudioBuffer | null>(null);

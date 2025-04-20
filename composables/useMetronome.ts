@@ -4,9 +4,11 @@ export const createMetronome = () => {
   const isPlaying = useState<boolean>("isPlaying", () => false);
   const bpm = useState<number>("bpm", () => 80);
   const beatCount = useState<number>("beatCount", () => 0);
+  const volume = useState<number>("volume", () => 75);
 
   const audioContext = ref<AudioContext | null>(null);
   const tickBuffer = ref<AudioBuffer | null>(null);
+  const gainNode = ref<GainNode | null>(null);
 
   const nextNoteTime = ref(0);
   const schedulerInterval = ref<number | null>(null);
@@ -24,10 +26,10 @@ export const createMetronome = () => {
   };
 
   const scheduleNote = (time: number) => {
-    if (!audioContext.value || !tickBuffer.value) return;
+    if (!audioContext.value || !tickBuffer.value || !gainNode.value) return;
     const source = audioContext.value.createBufferSource();
     source.buffer = tickBuffer.value;
-    source.connect(audioContext.value.destination);
+    source.connect(gainNode.value);
     source.start(time);
     beatCount.value++;
   };
@@ -38,18 +40,20 @@ export const createMetronome = () => {
 
     while (nextNoteTime.value < currentTime + scheduleAheadTime) {
       scheduleNote(nextNoteTime.value);
-
       const secondsPerBeat = 60.0 / bpm.value;
       nextNoteTime.value += secondsPerBeat;
     }
   };
 
   const start = async () => {
-    if (typeof window === "undefined") return; // skip AudioContext creation on SSR
+    if (typeof window === "undefined") return;
 
     if (!audioContext.value) {
       audioContext.value = new AudioContext();
       await loadTickSound();
+      gainNode.value = audioContext.value.createGain();
+      gainNode.value.gain.value = volume.value / 100;
+      gainNode.value.connect(audioContext.value.destination);
     }
 
     beatCount.value = 0;
@@ -78,6 +82,7 @@ export const createMetronome = () => {
     isPlaying.value = false;
     beatCount.value = 0;
     nextNoteTime.value = 0;
+    gainNode.value = null;
   };
 
   const toggle = () => {
@@ -93,21 +98,33 @@ export const createMetronome = () => {
       clearTimeout(debounceTimeout.value);
     }
 
+    if (!wasPlaying.value && isPlaying.value) {
+      wasPlaying.value = true;
+    }
+
     stop();
 
     debounceTimeout.value = setTimeout(() => {
       if (wasPlaying.value) {
         start();
+        wasPlaying.value = false;
       }
     }, 300);
   };
 
   watch(bpm, handleBpmChange);
 
+  watch(volume, newVal => {
+    if (gainNode.value) {
+      gainNode.value.gain.value = newVal / 100;
+    }
+  });
+
   return {
     isPlaying,
     bpm,
     beatCount,
+    volume,
     toggle,
     start,
     stop,

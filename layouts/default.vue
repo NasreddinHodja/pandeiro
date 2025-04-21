@@ -1,9 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col bg-black text-white font-mono">
+  <div class="h-screen w-screen flex flex-col bg-black text-white font-mono overflow-hidden">
     <div class="hidden lg:flex"><LayoutsDefaultHeader /></div>
     <div class="lg:hidden"><LayoutsMobileHeader /></div>
-    <slot />
+
+    <NuxtPage />
   </div>
 </template>

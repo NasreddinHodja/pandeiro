@@ -9,4 +9,11 @@ export default defineNuxtConfig({
     },
   },
   modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@nuxt/eslint"],
+  app: {
+    pageTransition: {
+      name: "page",
+      mode: "out-in",
+    },
+  },
+  css: ["~/assets/css/main.css"],
 });

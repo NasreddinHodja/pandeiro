@@ -10,7 +10,7 @@ const value = defineModel<number>("value");
 
 <template>
   <div class="flex flex-col gap-4 w-full sm:flex-row sm:items-center">
-    <div class="flex items-center gap-3 justify-between min-w-24">
+    <div class="flex items-center gap-3 justify-between min-w-28">
       <span>{{ label }}:</span>
       <span class="inline-block text-right tabular-nums w-[3ch]">{{ value }}</span>
     </div>

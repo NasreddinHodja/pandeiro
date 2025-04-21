@@ -14,6 +14,9 @@ export default defineNuxtConfig({
       name: "page",
       mode: "out-in",
     },
+    head: {
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    },
   },
   css: ["~/assets/css/main.css"],
 });

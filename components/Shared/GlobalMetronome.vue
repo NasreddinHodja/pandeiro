@@ -13,7 +13,7 @@ onMounted(() => {
       <div class="h-[168px] md:h-[120px] w-full"></div>
     </template>
 
-    <Transition appear name="fade-and-drop">
+    <Transition appear name="fade-and-rise">
       <div v-if="mounted" class="flex flex-col gap-4 lg:p-12 p-6 text-white border-4 border-white">
         <div class="flex items-center gap-6">
           <SharedPlayButton :is-playing="isPlaying" @toggle="toggle" />

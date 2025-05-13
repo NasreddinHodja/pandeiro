@@ -25,7 +25,7 @@ onMounted(() => {
       </div>
     </Transition>
     <template #fallback>
-      <div class="h-[264px] md:h-[120px] w-full bg-blue-500"></div>
+      <div class="h-[264px] md:h-[120px] w-full"></div>
     </template>
   </ClientOnly>
 </template>

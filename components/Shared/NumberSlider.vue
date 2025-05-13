@@ -23,18 +23,10 @@ const decrement = () => {
       <span class="inline-block text-right tabular-nums w-[3ch]">{{ value }}</span>
     </div>
 
-    <div class="flex flex-col sm:flex-row sm:flex-wrap md:flex-nowrap items-center gap-3 w-full">
-      <div class="flex gap-3 w-full md:w-auto justify-between">
-        <SharedButton class="bg-white text-black p-1 md:p-2 flex items-center" @click="decrement">
-          <Icon name="mdi:minus" class="text-sm md:text-base" />
-        </SharedButton>
-        <SharedButton
-          class="bg-white text-black p-1 md:p-2 md:hidden flex items-center"
-          @click="increment"
-        >
-          <Icon name="mdi:plus" />
-        </SharedButton>
-      </div>
+    <div class="flex flex-row items-center gap-3 w-full">
+      <SharedButton class="bg-white text-black p-1.5 md:p-2 flex items-center" @click="decrement">
+        <Icon name="mdi:minus" class="text-sm md:text-base" />
+      </SharedButton>
 
       <input
         v-model.number="value"
@@ -42,14 +34,11 @@ const decrement = () => {
         :min="min"
         :max="max"
         step="1"
-        class="order-2 md:order-none w-full h-2 bg-white/20 appearance-none accent-white [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-none [&::-webkit-slider-thumb]:shadow-none [&::-webkit-slider-thumb]:rounded-none [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-none"
+        class="w-full h-2 bg-white/20 appearance-none accent-white [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-none [&::-webkit-slider-thumb]:shadow-none [&::-webkit-slider-thumb]:rounded-none [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-none"
       />
 
-      <SharedButton
-        class="bg-white text-black p-1 md:p-2 hidden md:flex flex items-center"
-        @click="increment"
-      >
-        <Icon name="mdi:plus" />
+      <SharedButton class="bg-white text-black p-1.5 md:p-2 flex items-center" @click="increment">
+        <Icon name="mdi:plus" class="text-sm md:text-base" />
       </SharedButton>
     </div>
   </div>

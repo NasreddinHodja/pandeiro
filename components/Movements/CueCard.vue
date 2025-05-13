@@ -6,7 +6,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col gap-10">
+  <div class="flex flex-col gap-10 w-full md:w-auto">
     <div
       :class="['flex h-10 items-center justify-center', countDown > 0 ? 'visible' : 'invisible']"
     >

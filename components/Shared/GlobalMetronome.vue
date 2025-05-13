@@ -9,10 +9,6 @@ onMounted(() => {
 
 <template>
   <ClientOnly>
-    <template #fallback>
-      <div class="h-[168px] md:h-[120px] w-full"></div>
-    </template>
-
     <Transition appear name="fade-and-rise">
       <div v-if="mounted" class="flex flex-col gap-8 lg:p-12 p-6 text-white border-4 border-white">
         <div class="flex items-center gap-6">
@@ -28,5 +24,8 @@ onMounted(() => {
         </div>
       </div>
     </Transition>
+    <template #fallback>
+      <div class="h-[264px] md:h-[120px] w-full bg-blue-500"></div>
+    </template>
   </ClientOnly>
 </template>

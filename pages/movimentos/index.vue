@@ -69,7 +69,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="h-full w-full flex flex-col items-center justify-center gap-10">
+  <div class="h-full flex flex-col items-center justify-center gap-10 px-10">
     <MovementsCueCard :current-movement="movements[currentMovementIndex]" :count-down="countDown" />
     <SharedPlayButton :is-playing="isPlaying" @toggle="toggle" />
   </div>

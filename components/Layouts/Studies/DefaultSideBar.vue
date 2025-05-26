@@ -2,53 +2,14 @@
 const route = useRoute();
 
 const items = [
-  { label: "Glossary", to: "/estudos" },
+  { label: "Glossário", to: "/estudos" },
   { label: "Samba-choro", to: "/estudos/samba-choro" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
-  { label: "Home", to: "/" },
 ];
 </script>
 
 <template>
   <div
-    class="flex flex-col h-full w-72 border-r-2 border-white pt-4 overflow-scroll [scrollbar-width:none] [-ms-overflow-style:none] gap-4 px-4"
+    class="flex flex-col h-full min-w-60 border-r-2 border-white pt-4 overflow-scroll [scrollbar-width:none] [-ms-overflow-style:none] gap-4 px-4"
   >
     <div
       v-for="item in items"

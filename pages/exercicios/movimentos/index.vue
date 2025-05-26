@@ -71,7 +71,7 @@ onUnmounted(() => {
 <template>
   <div class="h-full flex flex-col items-center justify-center gap-10 px-10">
     <NuxtLink to="/exercicios" class="absolute top-5 left-5">
-      <Icon name="mdi:arrow-back" class="w-10 h-10" />
+      <Icon name="mdi:arrow-back" class="w-6 h-6" />
     </NuxtLink>
 
     <MovementsCueCard :current-movement="movements[currentMovementIndex]" :count-down="countDown" />

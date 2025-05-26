@@ -8,10 +8,12 @@ const props = defineProps<{
 const value = defineModel<number>("value");
 
 const increment = () => {
+  if (value.value === undefined) return;
   if (value.value < props.max) value.value += 1;
 };
 
 const decrement = () => {
+  if (value.value === undefined) return;
   if (value.value > props.min) value.value -= 1;
 };
 </script>

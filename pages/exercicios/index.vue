@@ -10,7 +10,7 @@ const options = [
 <template>
   <div class="h-full w-full flex flex-col items-center justify-center bg-black">
     <NuxtLink to="/" class="absolute top-5 left-5">
-      <Icon name="mdi:arrow-back" class="w-10 h-10" />
+      <Icon name="mdi:arrow-back" class="w-6 h-6" />
     </NuxtLink>
 
     <div v-for="option in options" :key="option.label" class="flex">

@@ -1,10 +1,7 @@
 <script setup lang="ts">
 const route = useRoute();
 
-const items = [
-  { label: "Glossário", to: "/estudos" },
-  { label: "Samba-choro", to: "/estudos/samba-choro" },
-];
+const items = STUDIES_SIDEBAR_ITEMS;
 </script>
 
 <template>

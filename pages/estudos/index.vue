@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Renderer, StaveNote, Formatter, Stave, Stem, Articulation } from "vexflow";
 
+const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
+
 const graveContainer = ref<HTMLDivElement | null>(null);
 const graveAbafadoContainer = ref<HTMLDivElement | null>(null);
 const platinelaContainer = ref<HTMLDivElement | null>(null);
@@ -269,12 +271,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-full w-full flex flex-col items-center justify-center bg-black">
-    <NuxtLink to="/" class="absolute top-6 left-[270px]">
-      <Icon name="mdi:arrow-back" class="w-6 h-6" />
-    </NuxtLink>
+  <div class="h-full w-full flex flex-col bg-black">
+    <div class="w-full flex flex-row gap-4 items-center p-4 z-10">
+      <NuxtLink to="/" class="flex">
+        <Icon name="mdi:arrow-back" class="w-6 h-6" />
+      </NuxtLink>
+      <Icon
+        name="mdi:hamburger-menu"
+        class="w-6 h-6 md:hidden"
+        @click="shouldShowMobileSidebar = !shouldShowMobileSidebar"
+      />
+    </div>
 
-    <div class="w-full h-full flex flex-col gap-10 py-24 px-28">
+    <div class="flex w-full flex-col gap-10 py-24 px-28 overflow-scroll">
       <span class="text-2xl font-bold">Glossário</span>
       <div class="flex flex-col w-full">
         <div class="flex flex-row gap-10 items-center">

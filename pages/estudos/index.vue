@@ -23,7 +23,7 @@ const createGraveNotes = () => {
 
   const style = { fillStyle: "white", strokeStyle: "white" };
 
-  const stave = new Stave(0, 0, 100);
+  const stave = new Stave(0, -10, 100);
   stave.setNumLines(1);
   stave.setContext(context).draw();
 
@@ -54,7 +54,7 @@ const createGraveAbafadoNotes = () => {
 
   const style = { fillStyle: "white", strokeStyle: "white" };
 
-  const stave = new Stave(0, 0, 100);
+  const stave = new Stave(0, -10, 100);
   stave.setNumLines(1);
   stave.setContext(context).draw();
 
@@ -85,7 +85,7 @@ const createPlatinelaNotes = () => {
 
   const style = { fillStyle: "white", strokeStyle: "white" };
 
-  const stave = new Stave(0, 0, 100);
+  const stave = new Stave(0, -10, 100);
   stave.setNumLines(1);
   stave.setContext(context).draw();
 
@@ -116,7 +116,7 @@ const createTapaNotes = () => {
 
   const style = { fillStyle: "white", strokeStyle: "white" };
 
-  const stave = new Stave(0, 0, 100);
+  const stave = new Stave(0, -10, 100);
   stave.setNumLines(1);
   stave.setContext(context).draw();
 
@@ -147,7 +147,7 @@ const createGraveSecoNotes = () => {
 
   const style = { fillStyle: "white", strokeStyle: "white" };
 
-  const stave = new Stave(0, 0, 100);
+  const stave = new Stave(0, -10, 100);
   stave.setNumLines(1);
   stave.setContext(context).draw();
 
@@ -182,7 +182,7 @@ const createAccentNote = () => {
 
   const style = { fillStyle: "white", strokeStyle: "white" };
 
-  const stave = new Stave(25, 0, 100);
+  const stave = new Stave(25, -10, 100);
   stave.setNumLines(1);
   stave.setStyle({ fillStyle: "black", strokeStyle: "black" });
   stave.setContext(context).draw();
@@ -211,7 +211,7 @@ const createGhostNote = () => {
 
   const style = { fillStyle: "white", strokeStyle: "white" };
 
-  const stave = new Stave(25, 0, 100);
+  const stave = new Stave(25, -10, 100);
   stave.setNumLines(1);
   stave.setStyle({ fillStyle: "black", strokeStyle: "black" });
   stave.setContext(context).draw();
@@ -240,7 +240,7 @@ const createRuloNote = () => {
 
   const style = { fillStyle: "white", strokeStyle: "white" };
 
-  const stave = new Stave(25, 0, 100);
+  const stave = new Stave(25, -10, 100);
   stave.setNumLines(1);
   stave.setStyle({ fillStyle: "black", strokeStyle: "black" });
   stave.setContext(context).draw();
@@ -283,7 +283,7 @@ onMounted(() => {
       />
     </div>
 
-    <div class="flex w-full flex-col gap-10 py-24 px-28 overflow-scroll">
+    <div class="flex w-full flex-col gap-4 md:gap-10 py-4 md:py-24 px-5 md:px-28 overflow-scroll">
       <span class="text-2xl font-bold">Glossário</span>
       <div class="flex flex-col w-full">
         <div class="flex flex-row gap-10 items-center">
@@ -307,7 +307,9 @@ onMounted(() => {
           <div>Grave seco (quase tapa)</div>
         </div>
       </div>
-      <div class="h-px bg-white mt-4 w-full mx-auto"></div>
+
+      <hr class="border-t border-white mt-4 w-full" />
+
       <div class="flex flex-col w-full">
         <div class="flex flex-col w-full">
           <div class="flex flex-row gap-10 items-center">

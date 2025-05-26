@@ -19,6 +19,7 @@
     "@nuxtjs/tailwindcss": "6.13.2",
     "nuxt": "^3.16.2",
     "tone": "^15.0.4",
+    "vexflow": "^5.0.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

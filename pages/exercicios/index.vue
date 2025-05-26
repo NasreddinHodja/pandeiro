@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const helpers = [
+const options = [
   {
     label: "Movimentos",
     to: "/exercicios/movimentos",
@@ -13,10 +13,10 @@ const helpers = [
       <Icon name="mdi:arrow-back" class="w-10 h-10" />
     </NuxtLink>
 
-    <div v-for="helper in helpers" :key="helper.label" class="flex">
+    <div v-for="option in options" :key="option.label" class="flex">
       <SharedButton>
-        <NuxtLink :to="helper.to" class="text-black bg-white py-2 px-4">
-          {{ helper.label }}
+        <NuxtLink :to="option.to" class="text-black bg-white py-2 px-4">
+          {{ option.label }}
         </NuxtLink>
       </SharedButton>
     </div>

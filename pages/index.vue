@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const helpers = [
+const options = [
   {
     label: "Estudos",
     to: "/estudos",
@@ -13,10 +13,10 @@ const helpers = [
 
 <template>
   <div class="h-full w-full flex flex-col items-center justify-center bg-black gap-10">
-    <div v-for="helper in helpers" :key="helper.label" class="flex">
+    <div v-for="option in options" :key="option.label" class="flex">
       <SharedButton>
-        <NuxtLink :to="helper.to" class="text-black bg-white py-2 px-4">
-          {{ helper.label }}
+        <NuxtLink :to="option.to" class="text-black bg-white py-2 px-4">
+          {{ option.label }}
         </NuxtLink>
       </SharedButton>
     </div>

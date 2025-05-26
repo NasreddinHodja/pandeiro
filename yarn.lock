@@ -6484,6 +6484,11 @@ vary@^1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
+vexflow@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/vexflow/-/vexflow-5.0.0.tgz#4307c84979657c6f733facd1aed60c99be56ed88"
+  integrity sha512-rjB7TV4ygKE5Fl3W5OlG+0dHv22CFufUJdMG6oNgvcn0zp34u+sOboZsadQXnF1O3tZ3myXThaUIaLkJlpNM2Q==
+
 vite-dev-rpc@^1.0.7:
   version "1.0.7"
   resolved "https://registry.npmjs.org/vite-dev-rpc/-/vite-dev-rpc-1.0.7.tgz"

@@ -1,18 +1,18 @@
 <script setup lang="ts">
 const helpers = [
   {
-    label: "Estudos",
-    to: "/estudos",
-  },
-  {
-    label: "Exercícios",
-    to: "/exercicios",
+    label: "Movimentos",
+    to: "/exercicios/movimentos",
   },
 ];
 </script>
 
 <template>
-  <div class="h-full w-full flex flex-col items-center justify-center bg-black gap-10">
+  <div class="h-full w-full flex flex-col items-center justify-center bg-black">
+    <NuxtLink to="/" class="absolute top-5 left-5">
+      <Icon name="mdi:arrow-back" class="w-10 h-10" />
+    </NuxtLink>
+
     <div v-for="helper in helpers" :key="helper.label" class="flex">
       <SharedButton>
         <NuxtLink :to="helper.to" class="text-black bg-white py-2 px-4">

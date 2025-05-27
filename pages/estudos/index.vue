@@ -283,7 +283,9 @@ onMounted(() => {
       />
     </div>
 
-    <div class="flex w-full flex-col gap-4 md:gap-10 py-4 md:py-24 px-5 md:px-28 overflow-scroll">
+    <div
+      class="flex w-full flex-col gap-4 md:gap-10 py-4 md:py-24 px-5 md:px-28 overflow-scroll pb-24"
+    >
       <span class="text-2xl font-bold">Glossário</span>
       <div class="flex flex-col w-full">
         <div class="flex flex-row gap-10 items-center">

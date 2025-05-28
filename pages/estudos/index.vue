@@ -194,7 +194,7 @@ const createAccentNote = () => {
       stemDirection: Stem.DOWN,
     })
       .setStyle(style)
-      .addModifier(new Articulation("a^")),
+      .addModifier(new Articulation("a>")),
   ];
 
   Formatter.FormatAndDraw(context, stave, notes);

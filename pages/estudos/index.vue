@@ -1,5 +1,20 @@
 <script setup lang="ts">
-import { Renderer, StaveNote, Formatter, Stave, Stem, Articulation } from "vexflow";
+import {
+  createGraveDown,
+  createGraveUp,
+  createGraveAbafadoDown,
+  createGraveAbafadoUp,
+  createGraveSecoDown,
+  createGraveSecoUp,
+  createPlatinelaDown,
+  createPlatinelaUp,
+  createTapaDown,
+  createTapaUp,
+  Staff,
+  createAccent,
+  createGhost,
+  createRoll,
+} from "@/lib/score";
 
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
@@ -15,247 +30,90 @@ const ruloNoteContainer = ref<HTMLDivElement | null>(null);
 const createGraveNotes = () => {
   if (!graveContainer.value) return;
 
-  const renderer = new Renderer(graveContainer.value, Renderer.Backends.SVG);
-  renderer.resize(100, 80);
-  const context = renderer.getContext();
-  context.setFillStyle("white");
-  context.setStrokeStyle("white");
+  const staff = new Staff(graveContainer.value, 100, 80, 0, 0, 1);
 
-  const style = { fillStyle: "white", strokeStyle: "white" };
+  staff.addNote([createGraveDown("4"), createGraveUp("4")]);
 
-  const stave = new Stave(0, -10, 100);
-  stave.setNumLines(1);
-  stave.setContext(context).draw();
-
-  const notes = [
-    new StaveNote({
-      keys: ["e/5"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    }).setStyle(style),
-    new StaveNote({
-      keys: ["g/5"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    }).setStyle(style),
-  ];
-
-  Formatter.FormatAndDraw(context, stave, notes);
+  staff.draw();
 };
 
 const createGraveAbafadoNotes = () => {
   if (!graveAbafadoContainer.value) return;
 
-  const renderer = new Renderer(graveAbafadoContainer.value, Renderer.Backends.SVG);
-  renderer.resize(100, 80);
-  const context = renderer.getContext();
-  context.setFillStyle("white");
-  context.setStrokeStyle("white");
+  const staff = new Staff(graveAbafadoContainer.value, 100, 80, 0, 0, 1);
 
-  const style = { fillStyle: "white", strokeStyle: "white" };
+  staff.addNote([createGraveAbafadoDown("4"), createGraveAbafadoUp("4")]);
 
-  const stave = new Stave(0, -10, 100);
-  stave.setNumLines(1);
-  stave.setContext(context).draw();
-
-  const notes = [
-    new StaveNote({
-      keys: ["e/5/cx"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    }).setStyle(style),
-    new StaveNote({
-      keys: ["g/5/cx"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    }).setStyle(style),
-  ];
-
-  Formatter.FormatAndDraw(context, stave, notes);
+  staff.draw();
 };
 
 const createPlatinelaNotes = () => {
   if (!platinelaContainer.value) return;
 
-  const renderer = new Renderer(platinelaContainer.value, Renderer.Backends.SVG);
-  renderer.resize(100, 80);
-  const context = renderer.getContext();
-  context.setFillStyle("white");
-  context.setStrokeStyle("white");
+  const staff = new Staff(platinelaContainer.value, 100, 80, 0, 0, 1);
 
-  const style = { fillStyle: "white", strokeStyle: "white" };
+  staff.addNote([createPlatinelaDown("4"), createPlatinelaUp("4")]);
 
-  const stave = new Stave(0, -10, 100);
-  stave.setNumLines(1);
-  stave.setContext(context).draw();
-
-  const notes = [
-    new StaveNote({
-      keys: ["e/5/di"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    }).setStyle(style),
-    new StaveNote({
-      keys: ["g/5/di"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    }).setStyle(style),
-  ];
-
-  Formatter.FormatAndDraw(context, stave, notes);
+  staff.draw();
 };
 
 const createTapaNotes = () => {
   if (!tapaContainer.value) return;
 
-  const renderer = new Renderer(tapaContainer.value, Renderer.Backends.SVG);
-  renderer.resize(100, 80);
-  const context = renderer.getContext();
-  context.setFillStyle("white");
-  context.setStrokeStyle("white");
+  const staff = new Staff(tapaContainer.value, 100, 80, 0, 0, 1);
 
-  const style = { fillStyle: "white", strokeStyle: "white" };
+  staff.addNote([createTapaDown("4"), createTapaUp("4")]);
 
-  const stave = new Stave(0, -10, 100);
-  stave.setNumLines(1);
-  stave.setContext(context).draw();
-
-  const notes = [
-    new StaveNote({
-      keys: ["e/5/x"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    }).setStyle(style),
-    new StaveNote({
-      keys: ["g/5/x"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    }).setStyle(style),
-  ];
-
-  Formatter.FormatAndDraw(context, stave, notes);
+  staff.draw();
 };
 
 const createGraveSecoNotes = () => {
   if (!graveSecoContainer.value) return;
 
-  const renderer = new Renderer(graveSecoContainer.value, Renderer.Backends.SVG);
-  renderer.resize(100, 80);
-  const context = renderer.getContext();
-  context.setFillStyle("white");
-  context.setStrokeStyle("white");
+  const staff = new Staff(graveSecoContainer.value, 100, 80, 0, 0, 1);
 
-  const style = { fillStyle: "white", strokeStyle: "white" };
+  staff.addNote([createGraveSecoDown("4"), createGraveSecoUp("4")]);
 
-  const stave = new Stave(0, -10, 100);
-  stave.setNumLines(1);
-  stave.setContext(context).draw();
-
-  const notes = [
-    new StaveNote({
-      keys: ["e/5/cx"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    })
-      .setStyle(style)
-      .addModifier(new Articulation("a^")),
-    new StaveNote({
-      keys: ["g/5/cx"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    })
-      .setStyle(style)
-      .addModifier(new Articulation("a^")),
-  ];
-
-  Formatter.FormatAndDraw(context, stave, notes);
+  staff.draw();
 };
 
 const createAccentNote = () => {
   if (!accentContainer.value) return;
 
-  const renderer = new Renderer(accentContainer.value, Renderer.Backends.SVG);
-  renderer.resize(100, 80);
-  const context = renderer.getContext();
-  context.setFillStyle("black");
-  context.setStrokeStyle("black");
+  const staff = new Staff(accentContainer.value, 100, 80, 0, 0, 1);
 
-  const style = { fillStyle: "white", strokeStyle: "white" };
+  staff.addNote([
+    createPlatinelaDown("4").addModifier(createAccent()),
+    createPlatinelaUp("4").addModifier(createAccent()),
+  ]);
 
-  const stave = new Stave(25, -10, 100);
-  stave.setNumLines(1);
-  stave.setStyle({ fillStyle: "black", strokeStyle: "black" });
-  stave.setContext(context).draw();
-
-  const notes = [
-    new StaveNote({
-      keys: ["e/5/di"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    })
-      .setStyle(style)
-      .addModifier(new Articulation("a>")),
-  ];
-
-  Formatter.FormatAndDraw(context, stave, notes);
+  staff.draw();
 };
 
 const createGhostNote = () => {
   if (!ghostNoteContainer.value) return;
 
-  const renderer = new Renderer(ghostNoteContainer.value, Renderer.Backends.SVG);
-  renderer.resize(100, 80);
-  const context = renderer.getContext();
-  context.setFillStyle("black");
-  context.setStrokeStyle("black");
+  const staff = new Staff(ghostNoteContainer.value, 100, 80, 0, 0, 1);
 
-  const style = { fillStyle: "white", strokeStyle: "white" };
+  staff.addNote([
+    createPlatinelaDown("4").addModifier(createGhost()),
+    createPlatinelaUp("4").addModifier(createGhost()),
+  ]);
 
-  const stave = new Stave(25, -10, 100);
-  stave.setNumLines(1);
-  stave.setStyle({ fillStyle: "black", strokeStyle: "black" });
-  stave.setContext(context).draw();
-
-  const notes = [
-    new StaveNote({
-      keys: ["e/5/di"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    })
-      .setStyle(style)
-      .addModifier(new Articulation("av")),
-  ];
-
-  Formatter.FormatAndDraw(context, stave, notes);
+  staff.draw();
 };
 
 const createRuloNote = () => {
   if (!ruloNoteContainer.value) return;
 
-  const renderer = new Renderer(ruloNoteContainer.value, Renderer.Backends.SVG);
-  renderer.resize(100, 80);
-  const context = renderer.getContext();
-  context.setFillStyle("black");
-  context.setStrokeStyle("black");
+  const staff = new Staff(ruloNoteContainer.value, 100, 80, 0, 0, 1);
 
-  const style = { fillStyle: "white", strokeStyle: "white" };
+  staff.addNote([
+    createPlatinelaDown("4").addModifier(createRoll()),
+    createPlatinelaUp("4").addModifier(createRoll()),
+  ]);
 
-  const stave = new Stave(25, -10, 100);
-  stave.setNumLines(1);
-  stave.setStyle({ fillStyle: "black", strokeStyle: "black" });
-  stave.setContext(context).draw();
-
-  const notes = [
-    new StaveNote({
-      keys: ["e/5/di"],
-      duration: "q",
-      stemDirection: Stem.DOWN,
-    })
-      .setStyle(style)
-      .addModifier(new Articulation("a-")),
-  ];
-
-  Formatter.FormatAndDraw(context, stave, notes);
+  staff.draw();
 };
 
 onMounted(() => {

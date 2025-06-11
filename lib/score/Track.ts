@@ -6,7 +6,10 @@ import {
   Beam,
   type RenderContext,
   BarlineType,
+  Voice,
 } from "vexflow";
+
+const STAFF_Y_SHIFT = -20;
 
 type TimeSignature = "2/4" | "4/4";
 
@@ -38,7 +41,7 @@ export class Track {
     return parseInt(this.timeSignature.substring(0, 1));
   }
 
-  private getBeatLength(): number {
+  private getBeatValue(): number {
     if (!this.timeSignature) return 0;
     return parseInt(this.timeSignature.substring(2));
   }
@@ -76,8 +79,8 @@ export class Track {
 
   draw() {
     const measures = this.splitNotesIntoMeasures();
-    const measureWidth = 200;
-    const y = -20;
+    const measureWidth = 300;
+    const y = STAFF_Y_SHIFT;
 
     measures.forEach((measureNotes, i) => {
       const x = i * measureWidth;
@@ -102,9 +105,16 @@ export class Track {
 
       stave.draw();
 
-      Formatter.FormatAndDraw(this.context, stave, measureNotes);
+      const beams = Beam.generateBeams(measureNotes);
+      const voice = new Voice({
+        numBeats: this.getBeatsPerMeasure(),
+        beatValue: this.getBeatValue(),
+      });
+      voice.addTickables(measureNotes);
 
-      Beam.generateBeams(measureNotes).forEach(beam => beam.setContext(this.context).draw());
+      new Formatter().joinVoices([voice]).format([voice], measureWidth - 40);
+      voice.draw(this.context, stave);
+      beams.forEach(b => b.setContext(this.context).draw());
     });
   }
 }

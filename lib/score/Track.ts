@@ -10,24 +10,30 @@ import VexFlow, {
 } from "vexflow";
 
 const STAFF_Y_SHIFT = -20;
+const MIN_MEASURE_WIDTH = 300;
+const DEFAULT_ROW_HEIGHT = 100;
 
 type TimeSignature = "2/4" | "4/4";
 
 export class Track {
   private renderer: Renderer;
   private context: RenderContext;
+  private width: number;
   private notes: StaveNote[] = [];
   private timeSignature?: TimeSignature;
-  private measureWidth: number = 300;
+  private measureWidth: number = MIN_MEASURE_WIDTH;
 
   constructor(
     container: HTMLDivElement,
-    width: number = 500,
+    width: number = MIN_MEASURE_WIDTH,
     height: number = 120,
     measureWidth?: number
   ) {
     this.renderer = new Renderer(container, Renderer.Backends.SVG);
-    this.renderer.resize(width, height);
+
+    const containerWidth = container.getBoundingClientRect().width;
+    this.width = width > containerWidth ? containerWidth : width;
+    this.renderer.resize(this.width, height);
 
     this.context = this.renderer.getContext();
     this.context.setFillStyle("white");
@@ -81,10 +87,28 @@ export class Track {
 
   draw() {
     const measures = this.splitNotesIntoMeasures();
-    const y = STAFF_Y_SHIFT;
+    const measureCount = measures.length;
+    const canvasWidth = this.width;
+
+    let measuresPerRow = measureCount;
+
+    if (this.measureWidth * measureCount > canvasWidth) {
+      measuresPerRow = Math.floor(canvasWidth / this.measureWidth);
+      this.measureWidth = canvasWidth / measuresPerRow - 1;
+    }
+
+    this.renderer.resize(
+      this.width,
+      DEFAULT_ROW_HEIGHT * Math.floor(measureCount / measuresPerRow)
+    );
 
     measures.forEach((measureNotes, i) => {
-      const x = i * this.measureWidth;
+      const row = Math.floor(i / measuresPerRow);
+      const col = i % measuresPerRow;
+
+      const x = col * this.measureWidth;
+      const y = STAFF_Y_SHIFT + row * DEFAULT_ROW_HEIGHT;
+
       const stave = new Stave(x, y, this.measureWidth);
       stave.setContext(this.context);
       stave.setConfigForLines([

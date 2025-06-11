@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Note, Track } from "@/lib/score";
+import { Note } from "@/lib/score";
+import { Stave, Renderer, BarlineType, Formatter, type StaveNote } from "vexflow";
 
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
@@ -12,88 +13,87 @@ const accentContainer = ref<HTMLDivElement | null>(null);
 const ghostNoteContainer = ref<HTMLDivElement | null>(null);
 const ruloNoteContainer = ref<HTMLDivElement | null>(null);
 
-const createTrack = (container: HTMLDivElement) => {
-  return new Track(container, 125, 80, 210);
+const createAndDrawStave = (container: HTMLDivElement, notes: StaveNote[]) => {
+  const width = 100;
+  const height = 90;
+  const renderer = new Renderer(container, Renderer.Backends.SVG);
+
+  renderer.resize(width, height);
+
+  const context = renderer.getContext();
+  context.setFillStyle("white");
+  context.setStrokeStyle("white");
+
+  const stave = new Stave(0, -10, width);
+  stave.setContext(context);
+  stave.setConfigForLines([
+    { visible: false },
+    { visible: false },
+    { visible: true },
+    { visible: false },
+    { visible: false },
+  ]);
+  stave.setBegBarType(BarlineType.NONE);
+
+  stave.draw();
+  Formatter.FormatAndDraw(context, stave, notes);
 };
 
 const createGraveNotes = () => {
   if (!graveContainer.value) return;
 
-  const track = createTrack(graveContainer.value);
-
-  track.addNote([new Note("grd", "4"), new Note("gru", "4")]);
-
-  track.draw();
+  createAndDrawStave(graveContainer.value, [new Note("grd", "4"), new Note("gru", "4")]);
 };
 
 const createGraveAbafadoNotes = () => {
   if (!graveAbafadoContainer.value) return;
 
-  const track = createTrack(graveAbafadoContainer.value);
-
-  track.addNote([new Note("gad", "4"), new Note("gau", "4")]);
-
-  track.draw();
+  createAndDrawStave(graveAbafadoContainer.value, [new Note("gad", "4"), new Note("gau", "4")]);
 };
 
 const createPlatinelaNotes = () => {
   if (!platinelaContainer.value) return;
 
-  const track = createTrack(platinelaContainer.value);
-
-  track.addNote([new Note("pld", "4"), new Note("plu", "4")]);
-
-  track.draw();
+  createAndDrawStave(platinelaContainer.value, [new Note("pld", "4"), new Note("plu", "4")]);
 };
 
 const createTapaNotes = () => {
   if (!tapaContainer.value) return;
 
-  const track = createTrack(tapaContainer.value);
-
-  track.addNote([new Note("tad", "4"), new Note("tau", "4")]);
-
-  track.draw();
+  createAndDrawStave(tapaContainer.value, [new Note("tad", "4"), new Note("tau", "4")]);
 };
 
 const createGraveSecoNotes = () => {
   if (!graveSecoContainer.value) return;
 
-  const track = createTrack(graveSecoContainer.value);
-
-  track.addNote([new Note("gsd", "4"), new Note("gsu", "4")]);
-
-  track.draw();
+  createAndDrawStave(graveSecoContainer.value, [new Note("gsd", "4"), new Note("gsu", "4")]);
 };
 
 const createAccentNote = () => {
   if (!accentContainer.value) return;
 
-  const track = createTrack(accentContainer.value);
-
-  track.addNote([new Note("pld", "4").addAccent(), new Note("plu", "4").addAccent()]);
-
-  track.draw();
+  createAndDrawStave(accentContainer.value, [
+    new Note("pld", "4").addAccent(),
+    new Note("plu", "4").addAccent(),
+  ]);
 };
 
 const createGhostNote = () => {
   if (!ghostNoteContainer.value) return;
 
-  const track = createTrack(ghostNoteContainer.value);
-
-  track.addNote([new Note("pld", "4").addGhost(), new Note("plu", "4").addGhost()]);
-
-  track.draw();
+  createAndDrawStave(ghostNoteContainer.value, [
+    new Note("pld", "4").addGhost(),
+    new Note("plu", "4").addGhost(),
+  ]);
 };
 
 const createRuloNote = () => {
   if (!ruloNoteContainer.value) return;
 
-  const track = createTrack(ruloNoteContainer.value);
-
-  track.addNote([new Note("pld", "4").addRoll(), new Note("plu", "4").addRoll()]);
-
-  track.draw();
+  createAndDrawStave(ruloNoteContainer.value, [
+    new Note("pld", "4").addRoll(),
+    new Note("plu", "4").addRoll(),
+  ]);
 };
 
 onMounted(() => {
@@ -148,7 +148,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <hr class="border-t border-white mt-4 w-full" />
+      <hr class="border-t border-white mt-10 w-full" />
 
       <div class="flex flex-col w-full">
         <div class="flex flex-col w-full">

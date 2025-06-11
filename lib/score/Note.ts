@@ -20,16 +20,16 @@ type NoteDuration = "1" | "2" | "4" | "8" | "16" | "32";
 type NoteKey = "grd" | "gru" | "gad" | "gau" | "pld" | "plu" | "tad" | "tau" | "gsd" | "gsu";
 
 const noteToVex: Record<NoteKey, string> = {
-  grd: "e/5",
-  gru: "g/5",
-  gad: "e/5/cx",
-  gau: "g/5/cx",
-  pld: "e/5/di",
-  plu: "g/5/di",
-  tad: "e/5/x",
-  tau: "g/5/x",
-  gsd: "e/5/cx",
-  gsu: "g/5/cx",
+  grd: "a/4",
+  gru: "c/5",
+  gad: "a/4/cx",
+  gau: "c/5/cx",
+  pld: "a/4/di",
+  plu: "c/5/di",
+  tad: "a/4/x",
+  tau: "c/5/x",
+  gsd: "a/4/cx",
+  gsu: "c/5/cx",
 };
 
 export class Note extends StaveNote {

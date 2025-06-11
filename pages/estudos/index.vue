@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Note, SimpleTrack } from "@/lib/score";
+import { Note, Track } from "@/lib/score";
 
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
@@ -12,84 +12,88 @@ const accentContainer = ref<HTMLDivElement | null>(null);
 const ghostNoteContainer = ref<HTMLDivElement | null>(null);
 const ruloNoteContainer = ref<HTMLDivElement | null>(null);
 
+const createTrack = (container: HTMLDivElement) => {
+  return new Track(container, 125, 80);
+};
+
 const createGraveNotes = () => {
   if (!graveContainer.value) return;
 
-  const staff = new SimpleTrack(graveContainer.value, 100, 80, 0, 0);
+  const track = createTrack(graveContainer.value);
 
-  staff.addNote([new Note("grd", "4"), new Note("gru", "4")]);
+  track.addNote([new Note("grd", "4"), new Note("gru", "4")]);
 
-  staff.draw();
+  track.draw();
 };
 
 const createGraveAbafadoNotes = () => {
   if (!graveAbafadoContainer.value) return;
 
-  const staff = new SimpleTrack(graveAbafadoContainer.value, 100, 80, 0, 0);
+  const track = createTrack(graveAbafadoContainer.value);
 
-  staff.addNote([new Note("gad", "4"), new Note("gau", "4")]);
+  track.addNote([new Note("gad", "4"), new Note("gau", "4")]);
 
-  staff.draw();
+  track.draw();
 };
 
 const createPlatinelaNotes = () => {
   if (!platinelaContainer.value) return;
 
-  const staff = new SimpleTrack(platinelaContainer.value, 100, 80, 0, 0);
+  const track = createTrack(platinelaContainer.value);
 
-  staff.addNote([new Note("pld", "4"), new Note("plu", "4")]);
+  track.addNote([new Note("pld", "4"), new Note("plu", "4")]);
 
-  staff.draw();
+  track.draw();
 };
 
 const createTapaNotes = () => {
   if (!tapaContainer.value) return;
 
-  const staff = new SimpleTrack(tapaContainer.value, 100, 80, 0, 0);
+  const track = createTrack(tapaContainer.value);
 
-  staff.addNote([new Note("tad", "4"), new Note("tau", "4")]);
+  track.addNote([new Note("tad", "4"), new Note("tau", "4")]);
 
-  staff.draw();
+  track.draw();
 };
 
 const createGraveSecoNotes = () => {
   if (!graveSecoContainer.value) return;
 
-  const staff = new SimpleTrack(graveSecoContainer.value, 100, 80, 0, 0);
+  const track = createTrack(graveSecoContainer.value);
 
-  staff.addNote([new Note("gsd", "4"), new Note("gsu", "4")]);
+  track.addNote([new Note("gsd", "4"), new Note("gsu", "4")]);
 
-  staff.draw();
+  track.draw();
 };
 
 const createAccentNote = () => {
   if (!accentContainer.value) return;
 
-  const staff = new SimpleTrack(accentContainer.value, 100, 80, 0, 0);
+  const track = createTrack(accentContainer.value);
 
-  staff.addNote([new Note("pld", "4").addAccent(), new Note("plu", "4").addAccent()]);
+  track.addNote([new Note("pld", "4").addAccent(), new Note("plu", "4").addAccent()]);
 
-  staff.draw();
+  track.draw();
 };
 
 const createGhostNote = () => {
   if (!ghostNoteContainer.value) return;
 
-  const staff = new SimpleTrack(ghostNoteContainer.value, 100, 80, 0, 0);
+  const track = createTrack(ghostNoteContainer.value);
 
-  staff.addNote([new Note("pld", "4").addGhost(), new Note("plu", "4").addGhost()]);
+  track.addNote([new Note("pld", "4").addGhost(), new Note("plu", "4").addGhost()]);
 
-  staff.draw();
+  track.draw();
 };
 
 const createRuloNote = () => {
   if (!ruloNoteContainer.value) return;
 
-  const staff = new SimpleTrack(ruloNoteContainer.value, 100, 80, 0, 0);
+  const track = createTrack(ruloNoteContainer.value);
 
-  staff.addNote([new Note("pld", "4").addRoll(), new Note("plu", "4").addRoll()]);
+  track.addNote([new Note("pld", "4").addRoll(), new Note("plu", "4").addRoll()]);
 
-  staff.draw();
+  track.draw();
 };
 
 onMounted(() => {

@@ -1,7 +1,18 @@
 <script setup lang="ts">
+// import { Staff } from "~/lib/score";
+
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
 const levadaContainer = ref<HTMLDivElement | null>(null);
+
+onMounted(() => {
+  // if (levadaContainer.value === null) return;
+  // const staff = new Staff(levadaContainer.value, 100, 80, 0, 0, 1);
+  // staff.addNote([
+  //   createGraveAbafadoDown("8"),
+  //   createPlatinelaUp("8"),
+  // ])
+});
 </script>
 
 <template>

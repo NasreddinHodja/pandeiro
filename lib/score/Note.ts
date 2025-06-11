@@ -1,64 +1,64 @@
 import { StaveNote, Stem, type ElementStyle, Articulation } from "vexflow";
 
-type NoteDuration = "1" | "2" | "4" | "8" | "16" | "32";
-
 const defaultStyle: ElementStyle = {
   fillStyle: "white",
   strokeStyle: "white",
 };
 
-const createNote = (
-  key: string,
-  duration: NoteDuration,
-  stem: number,
-  style: ElementStyle = defaultStyle,
-  articulation?: string
-): StaveNote => {
-  const note = new StaveNote({
-    keys: [key],
-    duration,
-    stemDirection: stem,
-  }).setStyle(style);
+type NoteDuration = "1" | "2" | "4" | "8" | "16" | "32";
 
-  if (articulation) {
-    note.addModifier(new Articulation(articulation));
-  }
+/* Notes:
+  First 2 chars is the note. 
+  Third char is (u)p or (d)own.
 
-  return note;
+  grd / gru: grave
+  gad / gau: grave abafado
+  pld / plu: platinela 
+  tad / tau: tapa
+  gsd / gsu: grave seco
+*/
+type NoteKey = "grd" | "gru" | "gad" | "gau" | "pld" | "plu" | "tad" | "tau" | "gsd" | "gsu";
+
+const noteToVex: Record<NoteKey, string> = {
+  grd: "e/5",
+  gru: "g/5",
+  gad: "e/5/cx",
+  gau: "g/5/cx",
+  pld: "e/5/di",
+  plu: "g/5/di",
+  tad: "e/5/x",
+  tau: "g/5/x",
+  gsd: "e/5/cx",
+  gsu: "g/5/cx",
 };
 
-export const createGraveDown = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("e/5", duration, Stem.DOWN, style);
+export class Note extends StaveNote {
+  constructor(key: NoteKey, duration: NoteDuration) {
+    super({
+      keys: [noteToVex[key]],
+      duration,
+      stemDirection: Stem.DOWN,
+    });
 
-export const createGraveUp = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("g/5", duration, Stem.DOWN, style);
+    this.setStyle(defaultStyle);
 
-export const createGraveAbafadoDown = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("e/5/cx", duration, Stem.DOWN, style);
+    if (key.substring(0, 3) === "gs") {
+      this.addModifier(new Articulation("a^"));
+    }
+  }
 
-export const createGraveAbafadoUp = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("g/5/cx", duration, Stem.DOWN, style);
+  addAccent() {
+    this.addModifier(new Articulation("a>"));
+    return this;
+  }
 
-export const createPlatinelaDown = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("e/5/di", duration, Stem.DOWN, style);
+  addGhost() {
+    this.addModifier(new Articulation("av"));
+    return this;
+  }
 
-export const createPlatinelaUp = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("g/5/di", duration, Stem.DOWN, style);
-
-export const createTapaDown = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("e/5/x", duration, Stem.DOWN, style);
-
-export const createTapaUp = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("g/5/x", duration, Stem.DOWN, style);
-
-export const createGraveSecoDown = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("e/5/cx", duration, Stem.DOWN, style, "a^");
-
-export const createGraveSecoUp = (duration: NoteDuration, style?: ElementStyle) =>
-  createNote("g/5/cx", duration, Stem.DOWN, style, "a^");
-
-export const createAccent = () => new Articulation("a>");
-
-export const createGhost = () => new Articulation("av");
-
-export const createRoll = () => new Articulation("a-");
+  addRoll() {
+    this.addModifier(new Articulation("a-"));
+    return this;
+  }
+}

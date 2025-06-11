@@ -1,20 +1,5 @@
 <script setup lang="ts">
-import {
-  createGraveDown,
-  createGraveUp,
-  createGraveAbafadoDown,
-  createGraveAbafadoUp,
-  createGraveSecoDown,
-  createGraveSecoUp,
-  createPlatinelaDown,
-  createPlatinelaUp,
-  createTapaDown,
-  createTapaUp,
-  Staff,
-  createAccent,
-  createGhost,
-  createRoll,
-} from "@/lib/score";
+import { Note, Staff } from "@/lib/score";
 
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
@@ -32,7 +17,7 @@ const createGraveNotes = () => {
 
   const staff = new Staff(graveContainer.value, 100, 80, 0, 0, 1);
 
-  staff.addNote([createGraveDown("4"), createGraveUp("4")]);
+  staff.addNote([new Note("grd", "4"), new Note("gru", "4")]);
 
   staff.draw();
 };
@@ -42,7 +27,7 @@ const createGraveAbafadoNotes = () => {
 
   const staff = new Staff(graveAbafadoContainer.value, 100, 80, 0, 0, 1);
 
-  staff.addNote([createGraveAbafadoDown("4"), createGraveAbafadoUp("4")]);
+  staff.addNote([new Note("gad", "4"), new Note("gau", "4")]);
 
   staff.draw();
 };
@@ -52,7 +37,7 @@ const createPlatinelaNotes = () => {
 
   const staff = new Staff(platinelaContainer.value, 100, 80, 0, 0, 1);
 
-  staff.addNote([createPlatinelaDown("4"), createPlatinelaUp("4")]);
+  staff.addNote([new Note("pld", "4"), new Note("plu", "4")]);
 
   staff.draw();
 };
@@ -62,7 +47,7 @@ const createTapaNotes = () => {
 
   const staff = new Staff(tapaContainer.value, 100, 80, 0, 0, 1);
 
-  staff.addNote([createTapaDown("4"), createTapaUp("4")]);
+  staff.addNote([new Note("tad", "4"), new Note("tau", "4")]);
 
   staff.draw();
 };
@@ -72,7 +57,7 @@ const createGraveSecoNotes = () => {
 
   const staff = new Staff(graveSecoContainer.value, 100, 80, 0, 0, 1);
 
-  staff.addNote([createGraveSecoDown("4"), createGraveSecoUp("4")]);
+  staff.addNote([new Note("gsd", "4"), new Note("gsu", "4")]);
 
   staff.draw();
 };
@@ -82,10 +67,7 @@ const createAccentNote = () => {
 
   const staff = new Staff(accentContainer.value, 100, 80, 0, 0, 1);
 
-  staff.addNote([
-    createPlatinelaDown("4").addModifier(createAccent()),
-    createPlatinelaUp("4").addModifier(createAccent()),
-  ]);
+  staff.addNote([new Note("pld", "4").addAccent(), new Note("plu", "4").addAccent()]);
 
   staff.draw();
 };
@@ -95,10 +77,7 @@ const createGhostNote = () => {
 
   const staff = new Staff(ghostNoteContainer.value, 100, 80, 0, 0, 1);
 
-  staff.addNote([
-    createPlatinelaDown("4").addModifier(createGhost()),
-    createPlatinelaUp("4").addModifier(createGhost()),
-  ]);
+  staff.addNote([new Note("pld", "4").addGhost(), new Note("plu", "4").addGhost()]);
 
   staff.draw();
 };
@@ -108,10 +87,7 @@ const createRuloNote = () => {
 
   const staff = new Staff(ruloNoteContainer.value, 100, 80, 0, 0, 1);
 
-  staff.addNote([
-    createPlatinelaDown("4").addModifier(createRoll()),
-    createPlatinelaUp("4").addModifier(createRoll()),
-  ]);
+  staff.addNote([new Note("pld", "4").addRoll(), new Note("plu", "4").addRoll()]);
 
   staff.draw();
 };

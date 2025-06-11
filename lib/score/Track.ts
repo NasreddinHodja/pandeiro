@@ -13,7 +13,7 @@ const STAFF_Y_SHIFT = -20;
 const MIN_MEASURE_WIDTH = 300;
 const DEFAULT_ROW_HEIGHT = 100;
 
-type TimeSignature = "2/4" | "4/4";
+export type TimeSignature = "2/4" | "4/4";
 
 export class Track {
   private renderer: Renderer;
@@ -36,6 +36,7 @@ export class Track {
     this.renderer.resize(this.width, height);
 
     this.context = this.renderer.getContext();
+
     this.context.setFillStyle("white");
     this.context.setStrokeStyle("white");
 
@@ -46,7 +47,7 @@ export class Track {
     this.timeSignature = signature;
   }
 
-  addNote(notes: StaveNote[]) {
+  addNotes(notes: StaveNote[]) {
     this.notes.push(...notes);
   }
 
@@ -92,7 +93,6 @@ export class Track {
 
     let measuresPerRow = measureCount;
 
-    console.log(canvasWidth);
     if (this.measureWidth * measureCount > canvasWidth) {
       measuresPerRow = Math.floor(canvasWidth / this.measureWidth);
       this.measureWidth = canvasWidth / measuresPerRow - 1;

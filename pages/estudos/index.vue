@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Note } from "@/lib/score";
-import { Stave, Renderer, BarlineType, Formatter, type StaveNote } from "vexflow";
+import { Note, type RawNote } from "@/lib/score";
+import { Stave, Renderer, BarlineType, Formatter } from "vexflow";
 
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
@@ -11,9 +11,9 @@ const tapaContainer = ref<HTMLDivElement | null>(null);
 const graveSecoContainer = ref<HTMLDivElement | null>(null);
 const accentContainer = ref<HTMLDivElement | null>(null);
 const ghostNoteContainer = ref<HTMLDivElement | null>(null);
-const ruloNoteContainer = ref<HTMLDivElement | null>(null);
+const rollNoteContainer = ref<HTMLDivElement | null>(null);
 
-const createAndDrawStave = (container: HTMLDivElement, notes: StaveNote[]) => {
+const createAndDrawStave = (container: HTMLDivElement, rawNotes: RawNote[]) => {
   const width = 100;
   const height = 90;
   const renderer = new Renderer(container, Renderer.Backends.SVG);
@@ -24,7 +24,7 @@ const createAndDrawStave = (container: HTMLDivElement, notes: StaveNote[]) => {
   context.setFillStyle("white");
   context.setStrokeStyle("white");
 
-  const stave = new Stave(0, -10, width);
+  const stave = new Stave(0, -15, width);
   stave.setContext(context);
   stave.setConfigForLines([
     { visible: false },
@@ -36,64 +36,99 @@ const createAndDrawStave = (container: HTMLDivElement, notes: StaveNote[]) => {
   stave.setBegBarType(BarlineType.NONE);
 
   stave.draw();
-  Formatter.FormatAndDraw(context, stave, notes);
+  Formatter.FormatAndDraw(
+    context,
+    stave,
+    rawNotes.map(rawNote => new Note(rawNote))
+  );
 };
 
 const createGraveNotes = () => {
   if (!graveContainer.value) return;
 
-  createAndDrawStave(graveContainer.value, [new Note("grd", "4"), new Note("gru", "4")]);
+  const rawNotes: RawNote[] = [
+    { key: "grd", duration: "4" },
+    { key: "gru", duration: "4" },
+  ];
+
+  createAndDrawStave(graveContainer.value, rawNotes);
 };
 
 const createGraveAbafadoNotes = () => {
   if (!graveAbafadoContainer.value) return;
 
-  createAndDrawStave(graveAbafadoContainer.value, [new Note("gad", "4"), new Note("gau", "4")]);
+  const rawNotes: RawNote[] = [
+    { key: "gad", duration: "4" },
+    { key: "gau", duration: "4" },
+  ];
+
+  createAndDrawStave(graveAbafadoContainer.value, rawNotes);
 };
 
 const createPlatinelaNotes = () => {
   if (!platinelaContainer.value) return;
 
-  createAndDrawStave(platinelaContainer.value, [new Note("pld", "4"), new Note("plu", "4")]);
+  const rawNotes: RawNote[] = [
+    { key: "pld", duration: "4" },
+    { key: "plu", duration: "4" },
+  ];
+
+  createAndDrawStave(platinelaContainer.value, rawNotes);
 };
 
 const createTapaNotes = () => {
   if (!tapaContainer.value) return;
 
-  createAndDrawStave(tapaContainer.value, [new Note("tad", "4"), new Note("tau", "4")]);
+  const rawNotes: RawNote[] = [
+    { key: "tad", duration: "4" },
+    { key: "tau", duration: "4" },
+  ];
+
+  createAndDrawStave(tapaContainer.value, rawNotes);
 };
 
 const createGraveSecoNotes = () => {
   if (!graveSecoContainer.value) return;
 
-  createAndDrawStave(graveSecoContainer.value, [new Note("gsd", "4"), new Note("gsu", "4")]);
+  const rawNotes: RawNote[] = [
+    { key: "gsd", duration: "4" },
+    { key: "gsu", duration: "4" },
+  ];
+
+  createAndDrawStave(graveSecoContainer.value, rawNotes);
 };
 
 const createAccentNote = () => {
   if (!accentContainer.value) return;
 
-  createAndDrawStave(accentContainer.value, [
-    new Note("pld", "4").addAccent(),
-    new Note("plu", "4").addAccent(),
-  ]);
+  const rawNotes: RawNote[] = [
+    { key: "gsd", duration: "4", isAccent: true },
+    { key: "gsu", duration: "4", isAccent: true },
+  ];
+
+  createAndDrawStave(accentContainer.value, rawNotes);
 };
 
 const createGhostNote = () => {
   if (!ghostNoteContainer.value) return;
 
-  createAndDrawStave(ghostNoteContainer.value, [
-    new Note("pld", "4").addGhost(),
-    new Note("plu", "4").addGhost(),
-  ]);
+  const rawNotes: RawNote[] = [
+    { key: "gsd", duration: "4", isGhost: true },
+    { key: "gsu", duration: "4", isGhost: true },
+  ];
+
+  createAndDrawStave(ghostNoteContainer.value, rawNotes);
 };
 
-const createRuloNote = () => {
-  if (!ruloNoteContainer.value) return;
+const createRollNote = () => {
+  if (!rollNoteContainer.value) return;
 
-  createAndDrawStave(ruloNoteContainer.value, [
-    new Note("pld", "4").addRoll(),
-    new Note("plu", "4").addRoll(),
-  ]);
+  const rawNotes: RawNote[] = [
+    { key: "gsd", duration: "4", isRoll: true },
+    { key: "gsu", duration: "4", isRoll: true },
+  ];
+
+  createAndDrawStave(rollNoteContainer.value, rawNotes);
 };
 
 onMounted(() => {
@@ -104,7 +139,7 @@ onMounted(() => {
   createGraveSecoNotes();
   createAccentNote();
   createGhostNote();
-  createRuloNote();
+  createRollNote();
 });
 </script>
 
@@ -148,7 +183,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <hr class="border-t border-white mt-10 w-full" />
+      <hr class="border-t border-white mt-4 w-full" />
 
       <div class="flex flex-col w-full">
         <div class="flex flex-col w-full">
@@ -161,7 +196,7 @@ onMounted(() => {
             <div>Toque bem leve</div>
           </div>
           <div class="flex flex-row gap-10 items-center">
-            <div ref="ruloNoteContainer" class="px-4"></div>
+            <div ref="rollNoteContainer" class="px-4"></div>
             <div>Rulo</div>
           </div>
         </div>

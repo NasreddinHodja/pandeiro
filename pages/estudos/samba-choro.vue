@@ -1,73 +1,38 @@
 <script setup lang="ts">
-import { Track, Note } from "~/lib/score";
+import type { RawNote } from "~/lib/score";
 
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
-const levadaContainer = ref<HTMLDivElement | null>(null);
-const surdoContainer = ref<HTMLDivElement | null>(null);
+const levadaNotes: RawNote[] = [
+  { key: "gad", duration: "16" },
+  { key: "plu", duration: "16", isAccent: true },
+  { key: "pld", duration: "16" },
+  { key: "plu", duration: "16" },
+  { key: "grd", duration: "16" },
+  { key: "plu", duration: "16", isAccent: true },
+  { key: "pld", duration: "16" },
+  { key: "gru", duration: "16" },
+];
 
-const createLevadaScore = () => {
-  if (levadaContainer.value === null) return;
+const surdoNotes: RawNote[] = [
+  { key: "gad", duration: "16" },
+  { key: "plu", duration: "16", isAccent: true },
+  { key: "pld", duration: "16" },
+  { key: "plu", duration: "16" },
+  { key: "grd", duration: "16" },
+  { key: "plu", duration: "16", isAccent: true },
+  { key: "pld", duration: "16" },
+  { key: "gru", duration: "16" },
 
-  const staff = new Track(levadaContainer.value);
-  staff.addTimeStignature("2/4");
-
-  staff.addNote([
-    new Note("gad", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("pld", "16"),
-    new Note("plu", "16"),
-    new Note("grd", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("pld", "16"),
-    new Note("gru", "16"),
-  ]);
-
-  staff.draw();
-};
-
-const createSurdoScore = () => {
-  if (surdoContainer.value === null) return;
-
-  const staff = new Track(surdoContainer.value);
-  staff.addTimeStignature("2/4");
-
-  staff.addNote([
-    new Note("gad", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("pld", "16"),
-    new Note("plu", "16"),
-    new Note("grd", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("pld", "16"),
-    new Note("gru", "16"),
-
-    new Note("gad", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("pld", "16"),
-    new Note("plu", "16"),
-    new Note("grd", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("grd", "16"),
-    new Note("plu", "16"),
-
-    new Note("gad", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("pld", "16"),
-    new Note("plu", "16"),
-    new Note("grd", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("grd", "16"),
-    new Note("plu", "16"),
-  ]);
-
-  staff.draw();
-};
-
-onMounted(() => {
-  createLevadaScore();
-  createSurdoScore();
-});
+  { key: "gad", duration: "16" },
+  { key: "plu", duration: "16", isAccent: true },
+  { key: "pld", duration: "16" },
+  { key: "plu", duration: "16" },
+  { key: "grd", duration: "16" },
+  { key: "plu", duration: "16", isAccent: true },
+  { key: "grd", duration: "16" },
+  { key: "plu", duration: "16" },
+];
 </script>
 
 <template>
@@ -87,12 +52,10 @@ onMounted(() => {
       class="flex w-full flex-col gap-4 md:gap-10 py-4 md:py-24 px-5 md:px-28 overflow-scroll pb-24"
     >
       <span class="text-2xl font-bold">Samba-choro</span>
-      <div ref="levadaContainer" class="w-full"></div>
+      <SharedTrack :notes="levadaNotes" />
 
       <hr class="border-t border-white my-10 w-full" />
-
-      <span class="text-xl font-bold">Sotaque - Surdo</span>
-      <div ref="surdoContainer" class="w-full"></div>
+      <SharedTrack :notes="surdoNotes" />
     </div>
   </div>
 </template>

@@ -17,7 +17,7 @@ type NoteDuration = "1" | "2" | "4" | "8" | "16" | "32";
   tad / tau: tapa
   gsd / gsu: grave seco
 */
-type NoteKey = "grd" | "gru" | "gad" | "gau" | "pld" | "plu" | "tad" | "tau" | "gsd" | "gsu";
+export type NoteKey = "grd" | "gru" | "gad" | "gau" | "pld" | "plu" | "tad" | "tau" | "gsd" | "gsu";
 
 const noteToVex: Record<NoteKey, string> = {
   grd: "a/4",
@@ -32,18 +32,36 @@ const noteToVex: Record<NoteKey, string> = {
   gsu: "c/5/cx",
 };
 
+export type RawNote = {
+  key: NoteKey;
+  duration: NoteDuration;
+  isAccent?: boolean;
+  isGhost?: boolean;
+  isRoll?: boolean;
+};
+
 export class Note extends StaveNote {
-  constructor(key: NoteKey, duration: NoteDuration) {
+  constructor(rawNote: RawNote) {
     super({
-      keys: [noteToVex[key]],
-      duration,
+      keys: [noteToVex[rawNote.key]],
+      duration: rawNote.duration,
       stemDirection: Stem.DOWN,
     });
 
     this.setStyle(defaultStyle);
 
-    if (key.substring(0, 3) === "gs") {
+    if (rawNote.key.substring(0, 3) === "gs") {
       this.addModifier(new Articulation("a^"));
+    }
+
+    if (rawNote.isAccent) {
+      this.addAccent();
+    }
+    if (rawNote.isGhost) {
+      this.addGhost();
+    }
+    if (rawNote.isRoll) {
+      this.addRoll();
     }
   }
 

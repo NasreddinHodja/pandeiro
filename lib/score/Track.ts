@@ -1,4 +1,4 @@
-import {
+import VexFlow, {
   Renderer,
   Stave,
   Formatter,
@@ -18,14 +18,22 @@ export class Track {
   private context: RenderContext;
   private notes: StaveNote[] = [];
   private timeSignature?: TimeSignature;
+  private measureWidth: number = 300;
 
-  constructor(container: HTMLDivElement, width: number = 500, height: number = 120) {
+  constructor(
+    container: HTMLDivElement,
+    width: number = 500,
+    height: number = 120,
+    measureWidth?: number
+  ) {
     this.renderer = new Renderer(container, Renderer.Backends.SVG);
     this.renderer.resize(width, height);
 
     this.context = this.renderer.getContext();
     this.context.setFillStyle("white");
     this.context.setStrokeStyle("white");
+
+    if (measureWidth) this.measureWidth = measureWidth;
   }
 
   addTimeStignature(signature: TimeSignature = "2/4") {
@@ -49,26 +57,20 @@ export class Track {
   private splitNotesIntoMeasures(): StaveNote[][] {
     const measures = [];
     let currentMeasure: StaveNote[] = [];
-    let totalBeats = 0;
+    let totalTicks = 0;
 
-    const noteDurationToBeats = {
-      "1": 4,
-      "2": 2,
-      "4": 1,
-      "8": 0.5,
-      "16": 0.25,
-      "32": 0.125,
-    };
+    const ticksPerBeat = VexFlow.RESOLUTION / this.getBeatValue();
+    const maxTicks = ticksPerBeat * this.getBeatsPerMeasure();
 
     for (const note of this.notes) {
-      const duration = note.getDuration() as keyof typeof noteDurationToBeats;
-      totalBeats += noteDurationToBeats[duration];
+      const noteTicks = note.getTicks().value();
+      totalTicks += noteTicks;
       currentMeasure.push(note);
 
-      if (this.timeSignature && totalBeats >= this.getBeatsPerMeasure()) {
+      if (totalTicks >= maxTicks) {
         measures.push(currentMeasure);
         currentMeasure = [];
-        totalBeats = 0;
+        totalTicks = 0;
       }
     }
 
@@ -79,12 +81,11 @@ export class Track {
 
   draw() {
     const measures = this.splitNotesIntoMeasures();
-    const measureWidth = 300;
     const y = STAFF_Y_SHIFT;
 
     measures.forEach((measureNotes, i) => {
-      const x = i * measureWidth;
-      const stave = new Stave(x, y, measureWidth);
+      const x = i * this.measureWidth;
+      const stave = new Stave(x, y, this.measureWidth);
       stave.setContext(this.context);
       stave.setConfigForLines([
         { visible: false },
@@ -106,13 +107,15 @@ export class Track {
       stave.draw();
 
       const beams = Beam.generateBeams(measureNotes);
+
       const voice = new Voice({
-        numBeats: this.getBeatsPerMeasure(),
-        beatValue: this.getBeatValue(),
+        numBeats: this.getBeatsPerMeasure() || 2,
+        beatValue: this.getBeatValue() || 4,
       });
+      if (!this.timeSignature) voice.setMode(Voice.Mode.SOFT);
       voice.addTickables(measureNotes);
 
-      new Formatter().joinVoices([voice]).format([voice], measureWidth - 40);
+      new Formatter().joinVoices([voice]).format([voice], stave.getWidth() - 40);
       voice.draw(this.context, stave);
       beams.forEach(b => b.setContext(this.context).draw());
     });

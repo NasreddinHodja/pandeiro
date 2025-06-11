@@ -18,14 +18,6 @@ onMounted(() => {
     new Note("plu", "16").addAccent(),
     new Note("pld", "16"),
     new Note("gru", "16"),
-    new Note("gad", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("pld", "16"),
-    new Note("plu", "16"),
-    new Note("grd", "16"),
-    new Note("plu", "16").addAccent(),
-    new Note("pld", "16"),
-    new Note("gru", "16"),
   ]);
   staff.draw();
 });

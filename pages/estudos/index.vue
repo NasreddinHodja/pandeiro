@@ -13,7 +13,7 @@ const ghostNoteContainer = ref<HTMLDivElement | null>(null);
 const ruloNoteContainer = ref<HTMLDivElement | null>(null);
 
 const createTrack = (container: HTMLDivElement) => {
-  return new Track(container, 125, 80);
+  return new Track(container, 125, 80, 210);
 };
 
 const createGraveNotes = () => {

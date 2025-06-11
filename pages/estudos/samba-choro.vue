@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { Staff } from "~/lib/score";
+// import { Track, Note } from "~/lib/score";
 
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
@@ -7,11 +7,27 @@ const levadaContainer = ref<HTMLDivElement | null>(null);
 
 onMounted(() => {
   // if (levadaContainer.value === null) return;
-  // const staff = new Staff(levadaContainer.value, 100, 80, 0, 0, 1);
+  // const staff = new Track(levadaContainer.value, 400, 100, 0, 0);
+  // staff.addTimeStignature("2/4");
   // staff.addNote([
-  //   createGraveAbafadoDown("8"),
-  //   createPlatinelaUp("8"),
-  // ])
+  //   new Note("gad", "16"),
+  //   new Note("plu", "16").addAccent(),
+  //   new Note("pld", "16"),
+  //   new Note("plu", "16"),
+  //   new Note("grd", "16"),
+  //   new Note("plu", "16").addAccent(),
+  //   new Note("pld", "16"),
+  //   new Note("gru", "16"),
+  //   new Note("gad", "16"),
+  //   new Note("plu", "16").addAccent(),
+  //   new Note("pld", "16"),
+  //   new Note("plu", "16"),
+  //   new Note("grd", "16"),
+  //   new Note("plu", "16").addAccent(),
+  //   new Note("pld", "16"),
+  //   new Note("gru", "16"),
+  // ]);
+  // staff.draw();
 });
 </script>
 

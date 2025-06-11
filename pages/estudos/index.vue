@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Note, Staff } from "@/lib/score";
+import { Note, SimpleTrack } from "@/lib/score";
 
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
@@ -15,7 +15,7 @@ const ruloNoteContainer = ref<HTMLDivElement | null>(null);
 const createGraveNotes = () => {
   if (!graveContainer.value) return;
 
-  const staff = new Staff(graveContainer.value, 100, 80, 0, 0, 1);
+  const staff = new SimpleTrack(graveContainer.value, 100, 80, 0, 0);
 
   staff.addNote([new Note("grd", "4"), new Note("gru", "4")]);
 
@@ -25,7 +25,7 @@ const createGraveNotes = () => {
 const createGraveAbafadoNotes = () => {
   if (!graveAbafadoContainer.value) return;
 
-  const staff = new Staff(graveAbafadoContainer.value, 100, 80, 0, 0, 1);
+  const staff = new SimpleTrack(graveAbafadoContainer.value, 100, 80, 0, 0);
 
   staff.addNote([new Note("gad", "4"), new Note("gau", "4")]);
 
@@ -35,7 +35,7 @@ const createGraveAbafadoNotes = () => {
 const createPlatinelaNotes = () => {
   if (!platinelaContainer.value) return;
 
-  const staff = new Staff(platinelaContainer.value, 100, 80, 0, 0, 1);
+  const staff = new SimpleTrack(platinelaContainer.value, 100, 80, 0, 0);
 
   staff.addNote([new Note("pld", "4"), new Note("plu", "4")]);
 
@@ -45,7 +45,7 @@ const createPlatinelaNotes = () => {
 const createTapaNotes = () => {
   if (!tapaContainer.value) return;
 
-  const staff = new Staff(tapaContainer.value, 100, 80, 0, 0, 1);
+  const staff = new SimpleTrack(tapaContainer.value, 100, 80, 0, 0);
 
   staff.addNote([new Note("tad", "4"), new Note("tau", "4")]);
 
@@ -55,7 +55,7 @@ const createTapaNotes = () => {
 const createGraveSecoNotes = () => {
   if (!graveSecoContainer.value) return;
 
-  const staff = new Staff(graveSecoContainer.value, 100, 80, 0, 0, 1);
+  const staff = new SimpleTrack(graveSecoContainer.value, 100, 80, 0, 0);
 
   staff.addNote([new Note("gsd", "4"), new Note("gsu", "4")]);
 
@@ -65,7 +65,7 @@ const createGraveSecoNotes = () => {
 const createAccentNote = () => {
   if (!accentContainer.value) return;
 
-  const staff = new Staff(accentContainer.value, 100, 80, 0, 0, 1);
+  const staff = new SimpleTrack(accentContainer.value, 100, 80, 0, 0);
 
   staff.addNote([new Note("pld", "4").addAccent(), new Note("plu", "4").addAccent()]);
 
@@ -75,7 +75,7 @@ const createAccentNote = () => {
 const createGhostNote = () => {
   if (!ghostNoteContainer.value) return;
 
-  const staff = new Staff(ghostNoteContainer.value, 100, 80, 0, 0, 1);
+  const staff = new SimpleTrack(ghostNoteContainer.value, 100, 80, 0, 0);
 
   staff.addNote([new Note("pld", "4").addGhost(), new Note("plu", "4").addGhost()]);
 
@@ -85,7 +85,7 @@ const createGhostNote = () => {
 const createRuloNote = () => {
   if (!ruloNoteContainer.value) return;
 
-  const staff = new Staff(ruloNoteContainer.value, 100, 80, 0, 0, 1);
+  const staff = new SimpleTrack(ruloNoteContainer.value, 100, 80, 0, 0);
 
   staff.addNote([new Note("pld", "4").addRoll(), new Note("plu", "4").addRoll()]);
 

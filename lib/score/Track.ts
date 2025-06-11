@@ -25,14 +25,14 @@ export class Track {
 
   constructor(
     container: HTMLDivElement,
-    width: number = MIN_MEASURE_WIDTH,
+    width?: number,
     height: number = 120,
     measureWidth?: number
   ) {
     this.renderer = new Renderer(container, Renderer.Backends.SVG);
 
     const containerWidth = container.getBoundingClientRect().width;
-    this.width = width > containerWidth ? containerWidth : width;
+    this.width = !width || width > containerWidth ? containerWidth : width;
     this.renderer.resize(this.width, height);
 
     this.context = this.renderer.getContext();
@@ -92,6 +92,7 @@ export class Track {
 
     let measuresPerRow = measureCount;
 
+    console.log(canvasWidth);
     if (this.measureWidth * measureCount > canvasWidth) {
       measuresPerRow = Math.floor(canvasWidth / this.measureWidth);
       this.measureWidth = canvasWidth / measuresPerRow - 1;

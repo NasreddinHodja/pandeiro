@@ -9,7 +9,7 @@ const surdoContainer = ref<HTMLDivElement | null>(null);
 const createLevadaScore = () => {
   if (levadaContainer.value === null) return;
 
-  const staff = new Track(levadaContainer.value, 300, 100);
+  const staff = new Track(levadaContainer.value);
   staff.addTimeStignature("2/4");
 
   staff.addNote([
@@ -29,7 +29,7 @@ const createLevadaScore = () => {
 const createSurdoScore = () => {
   if (surdoContainer.value === null) return;
 
-  const staff = new Track(surdoContainer.value, 600, 100);
+  const staff = new Track(surdoContainer.value);
   staff.addTimeStignature("2/4");
 
   staff.addNote([
@@ -41,6 +41,15 @@ const createSurdoScore = () => {
     new Note("plu", "16").addAccent(),
     new Note("pld", "16"),
     new Note("gru", "16"),
+
+    new Note("gad", "16"),
+    new Note("plu", "16").addAccent(),
+    new Note("pld", "16"),
+    new Note("plu", "16"),
+    new Note("grd", "16"),
+    new Note("plu", "16").addAccent(),
+    new Note("grd", "16"),
+    new Note("plu", "16"),
 
     new Note("gad", "16"),
     new Note("plu", "16").addAccent(),

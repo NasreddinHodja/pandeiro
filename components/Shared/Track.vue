@@ -5,19 +5,39 @@ const props = defineProps<{ notes: RawNote[]; timeSignature?: TimeSignature }>()
 
 const container = ref<HTMLDivElement | null>(null);
 
-onMounted(async () => {
-  await nextTick();
+let track: Track | null = null;
 
+const createAndDrawTrack = () => {
   if (!container.value) return;
 
-  const staff = new Track(container.value);
+  container.value.innerHTML = "";
 
-  staff.addTimeStignature(props.timeSignature ?? "2/4");
+  track = new Track(container.value);
+  track.addTimeSignature(props.timeSignature ?? "2/4");
+  track.addNotes(props.notes.map(raw => new Note(raw)));
+  track.draw();
+};
 
-  staff.addNotes(props.notes.map(rawNote => new Note(rawNote)));
+const debouncedDraw = debounce(createAndDrawTrack, 100);
 
-  staff.draw();
+onMounted(async () => {
+  await nextTick();
+  createAndDrawTrack();
+
+  window.addEventListener("resize", debouncedDraw);
 });
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", debouncedDraw);
+});
+
+watch(
+  () => [props.notes, props.timeSignature],
+  () => {
+    createAndDrawTrack();
+  },
+  { deep: true }
+);
 </script>
 
 <template>

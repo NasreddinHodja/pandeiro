@@ -16,9 +16,9 @@ const DEFAULT_ROW_HEIGHT = 100;
 export type TimeSignature = "2/4" | "4/4";
 
 export class Track {
+  private container: HTMLDivElement;
   private renderer: Renderer;
   private context: RenderContext;
-  private width: number;
   private notes: StaveNote[] = [];
   private timeSignature?: TimeSignature;
   private measureWidth: number = MIN_MEASURE_WIDTH;
@@ -29,21 +29,24 @@ export class Track {
     height: number = 120,
     measureWidth?: number
   ) {
+    this.container = container;
+
     this.renderer = new Renderer(container, Renderer.Backends.SVG);
 
-    const containerWidth = container.getBoundingClientRect().width;
-    this.width = !width || width > containerWidth ? containerWidth : width;
-    this.renderer.resize(this.width, height);
+    this.renderer.resize(width ? width : this.getContainerWidth(), height);
 
     this.context = this.renderer.getContext();
-
     this.context.setFillStyle("white");
     this.context.setStrokeStyle("white");
 
     if (measureWidth) this.measureWidth = measureWidth;
   }
 
-  addTimeStignature(signature: TimeSignature = "2/4") {
+  private getContainerWidth(): number {
+    return this.container.getBoundingClientRect().width;
+  }
+
+  addTimeSignature(signature: TimeSignature = "2/4") {
     this.timeSignature = signature;
   }
 
@@ -87,19 +90,20 @@ export class Track {
   }
 
   draw() {
+    this.context.clear();
     const measures = this.splitNotesIntoMeasures();
     const measureCount = measures.length;
-    const canvasWidth = this.width;
+    const containerWidth = this.getContainerWidth();
 
     let measuresPerRow = measureCount;
 
-    if (this.measureWidth * measureCount > canvasWidth) {
-      measuresPerRow = Math.floor(canvasWidth / this.measureWidth);
-      this.measureWidth = canvasWidth / measuresPerRow - 1;
+    if (this.measureWidth * measureCount > containerWidth) {
+      measuresPerRow = Math.floor(containerWidth / this.measureWidth);
+      this.measureWidth = containerWidth / measuresPerRow - 1;
     }
 
     this.renderer.resize(
-      this.width,
+      this.getContainerWidth(),
       DEFAULT_ROW_HEIGHT * Math.floor(measureCount / measuresPerRow)
     );
 
@@ -110,9 +114,9 @@ export class Track {
       const x = col * this.measureWidth;
       const y = STAFF_Y_SHIFT + row * DEFAULT_ROW_HEIGHT;
 
-      const stave = new Stave(x, y, this.measureWidth);
-      stave.setContext(this.context);
-      stave.setConfigForLines([
+      const staff = new Stave(x, y, this.measureWidth);
+      staff.setContext(this.context);
+      staff.setConfigForLines([
         { visible: false },
         { visible: false },
         { visible: true },
@@ -121,15 +125,15 @@ export class Track {
       ]);
 
       if (i === 0) {
-        stave.setBegBarType(BarlineType.NONE);
-        if (this.timeSignature) stave.addTimeSignature(this.timeSignature);
+        staff.setBegBarType(BarlineType.NONE);
+        if (this.timeSignature) staff.addTimeSignature(this.timeSignature);
       } else {
-        stave.setBegBarType(BarlineType.SINGLE);
+        staff.setBegBarType(BarlineType.SINGLE);
       }
 
-      stave.setEndBarType(i === measures.length - 1 ? BarlineType.END : BarlineType.SINGLE);
+      staff.setEndBarType(i === measures.length - 1 ? BarlineType.END : BarlineType.SINGLE);
 
-      stave.draw();
+      staff.draw();
 
       const beams = Beam.generateBeams(measureNotes);
 
@@ -140,8 +144,8 @@ export class Track {
       if (!this.timeSignature) voice.setMode(Voice.Mode.SOFT);
       voice.addTickables(measureNotes);
 
-      new Formatter().joinVoices([voice]).format([voice], stave.getWidth() - 40);
-      voice.draw(this.context, stave);
+      new Formatter().joinVoices([voice]).format([voice], staff.getWidth() - 40);
+      voice.draw(this.context, staff);
       beams.forEach(b => b.setContext(this.context).draw());
     });
   }

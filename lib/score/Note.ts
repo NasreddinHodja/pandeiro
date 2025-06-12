@@ -5,7 +5,7 @@ const defaultStyle: ElementStyle = {
   strokeStyle: "white",
 };
 
-type NoteDuration = "1" | "2" | "4" | "8" | "16" | "32";
+type NoteDuration = "1" | "2" | "4" | "8" | "16" | "32" | "1r" | "2r" | "4r" | "8r" | "16r" | "32r";
 
 /* Notes:
   First 2 chars is the note. 
@@ -17,7 +17,18 @@ type NoteDuration = "1" | "2" | "4" | "8" | "16" | "32";
   tad / tau: tapa
   gsd / gsu: grave seco
 */
-export type NoteKey = "grd" | "gru" | "gad" | "gau" | "pld" | "plu" | "tad" | "tau" | "gsd" | "gsu";
+export type NoteKey =
+  | "grd"
+  | "gru"
+  | "gad"
+  | "gau"
+  | "pld"
+  | "plu"
+  | "tad"
+  | "tau"
+  | "gsd"
+  | "gsu"
+  | "rst";
 
 const noteToVex: Record<NoteKey, string> = {
   grd: "a/4",
@@ -30,6 +41,7 @@ const noteToVex: Record<NoteKey, string> = {
   tau: "c/5/x",
   gsd: "a/4/cx",
   gsu: "c/5/cx",
+  rst: "a/4",
 };
 
 export type RawNote = {

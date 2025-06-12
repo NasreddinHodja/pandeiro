@@ -7,6 +7,7 @@ import VexFlow, {
   type RenderContext,
   BarlineType,
   Voice,
+  Stem,
 } from "vexflow";
 
 const STAFF_Y_SHIFT = -20;
@@ -135,7 +136,7 @@ export class Track {
 
       staff.draw();
 
-      const beams = Beam.generateBeams(measureNotes);
+      const beams = Beam.generateBeams(measureNotes, { stemDirection: Stem.DOWN });
 
       const voice = new Voice({
         numBeats: this.getBeatsPerMeasure() || 2,

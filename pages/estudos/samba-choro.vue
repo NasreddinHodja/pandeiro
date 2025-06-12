@@ -229,35 +229,35 @@ const viradas: RawNote[][] = [
 
     <div class="flex w-full flex-col gap-10 py-4 md:py-24 px-5 md:px-28 overflow-scroll pb-24">
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-2xl font-bold">Samba-choro</span>
+        <span class="text-4xl font-bold">Samba-choro</span>
         <SharedTrack :notes="levadaNotes" class="bg-blue-500" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Sotaque - Surdo</span>
+        <span class="text-2xl font-bold">Sotaque - Surdo</span>
         <SharedTrack :notes="surdoNotes" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Sotaque - Bossa Nova</span>
+        <span class="text-2xl font-bold">Sotaque - Bossa Nova</span>
         <SharedTrack :notes="bossaNotes" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Sotaque - Dançando com acentos</span>
+        <span class="text-2xl font-bold">Sotaque - Dançando com acentos</span>
         <SharedTrack :notes="dancingAccentsNotes" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Sotaque - Tantan</span>
+        <span class="text-2xl font-bold">Sotaque - Tantan</span>
         <div>
           <span class="font-bold">OBS:</span>
           Notas fantasma bem leves
@@ -268,42 +268,42 @@ const viradas: RawNote[][] = [
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Sotaque - Repique de mão</span>
+        <span class="text-2xl font-bold">Sotaque - Repique de mão</span>
         <SharedTrack :notes="repiqueMaoNotes" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Sotaque - Repique de anel</span>
+        <span class="text-2xl font-bold">Sotaque - Repique de anel</span>
         <SharedTrack :notes="repiqueAnelNotes" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Virada 1</span>
+        <span class="text-2xl font-bold">Virada 1</span>
         <SharedTrack :notes="viradas[0]" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Virada 2</span>
+        <span class="text-2xl font-bold">Virada 2</span>
         <SharedTrack :notes="viradas[1]" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Virada 3</span>
+        <span class="text-2xl font-bold">Virada 3</span>
         <SharedTrack :notes="viradas[2]" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
-        <span class="text-xl font-bold">Virada 4</span>
+        <span class="text-2xl font-bold">Virada 4</span>
         <SharedTrack :notes="viradas[3]" />
       </div>
 

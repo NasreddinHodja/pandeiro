@@ -136,7 +136,10 @@ export class Track {
 
       staff.draw();
 
-      const beams = Beam.generateBeams(measureNotes, { stemDirection: Stem.DOWN });
+      const beams = Beam.generateBeams(measureNotes, {
+        stemDirection: Stem.DOWN,
+        maintainStemDirections: true,
+      });
 
       const voice = new Voice({
         numBeats: this.getBeatsPerMeasure() || 2,

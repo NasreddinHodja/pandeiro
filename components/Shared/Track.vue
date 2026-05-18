@@ -137,12 +137,13 @@ watch(
   <ClientOnly>
     <div class="w-full flex flex-col">
       <div class="relative w-full">
-        <div ref="container" class="w-full" />
+        <div ref="container" class="w-full min-h-[140px]" />
 
         <div
           v-if="cursorStyle"
           class="absolute bg-white opacity-30 pointer-events-none"
           :style="cursorStyle"
+          style="transition: left 40ms ease-out, width 40ms ease-out;"
         />
       </div>
 
@@ -185,5 +186,12 @@ watch(
         </button>
       </div>
     </div>
+
+    <template #fallback>
+      <div class="w-full flex flex-col">
+        <div class="w-full min-h-[140px]" />
+        <div class="h-10" />
+      </div>
+    </template>
   </ClientOnly>
 </template>

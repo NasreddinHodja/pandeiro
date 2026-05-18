@@ -163,6 +163,10 @@ let _currentSeq: Sequence | null = null;
 let _currentOwner: symbol | null = null;
 const _isPlaying = ref(false);
 const _activeNoteIndex = ref(-1);
+let _loopStartTime = 0;
+let _loopDuration = 0;
+
+export const getNextDownbeat = () => _loopStartTime + _loopDuration;
 
 const _stopAll = () => {
   if (_currentSeq) {
@@ -200,7 +204,7 @@ export const usePlayback = () => {
   const isThisPlaying = computed(() => _isPlaying.value && _currentOwner === myId);
   const activeNoteIndex = computed(() => (isThisPlaying.value ? _activeNoteIndex.value : -1));
 
-  const play = async (notes: RawNote[], swingRatio = 0) => {
+  const play = async (notes: RawNote[], swingRatio = 0): Promise<number> => {
     const engine = useAudioEngine();
     await engine.start();
 
@@ -211,7 +215,8 @@ export const usePlayback = () => {
     const dest = ctx.destination;
 
     let noteIndex = 0;
-    let loopStartTime = ctx.currentTime + 0.05;
+    const startTime = ctx.currentTime + 0.05;
+    _loopStartTime = startTime;
     const grid16 = compute16thPositions(notes);
 
     // Precompute each note's actual sound time relative to loop start (straight + swing offset)
@@ -221,17 +226,17 @@ export const usePlayback = () => {
       straightAcc += noteDurSec(note, bpm.value);
       return t;
     });
-    const loopDuration = straightAcc;
+    _loopDuration = straightAcc;
 
     _currentOwner = myId;
     _isPlaying.value = true;
 
     _currentSeq = {
-      nextTime: ctx.currentTime + 0.05,
+      nextTime: startTime,
 
       fire(time) {
         const i = noteIndex % notes.length;
-        if (i === 0) loopStartTime = time;
+        if (i === 0) _loopStartTime = time;
 
         const note = notes[i];
         if (!note.duration.includes("r")) {
@@ -248,7 +253,7 @@ export const usePlayback = () => {
 
       visualUpdate(now) {
         if (_currentOwner !== myId) return;
-        const elapsed = (now - loopStartTime) % loopDuration;
+        const elapsed = (now - _loopStartTime) % _loopDuration;
         if (elapsed < 0) return;
 
         let activeIdx = 0;
@@ -261,20 +266,16 @@ export const usePlayback = () => {
     };
 
     engine.register(_currentSeq);
+    return startTime;
   };
 
   const stop = () => {
     if (_currentOwner === myId) _stopAll();
   };
 
-  const toggle = (notes: RawNote[], swingRatio = 0) => {
-    if (isThisPlaying.value) stop();
-    else play(notes, swingRatio);
-  };
-
   onBeforeUnmount(() => {
     if (_currentOwner === myId) _stopAll();
   });
 
-  return { isThisPlaying, activeNoteIndex, toggle };
+  return { isThisPlaying, activeNoteIndex, play, stop };
 };

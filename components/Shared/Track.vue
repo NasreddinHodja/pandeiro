@@ -15,7 +15,26 @@ let track: Track | null = null;
 
 type NotePos = { x: number; width: number; rowTop: number; rowHeight: number };
 const notePositions = ref<NotePos[]>([]);
-const { isThisPlaying, activeNoteIndex, toggle } = usePlayback();
+const { isThisPlaying, activeNoteIndex, play, stop } = usePlayback();
+const { metroLinked, startFrom: startMetronomeFrom, stop: stopMetronome, bpm } = useMetronome();
+
+const handleToggle = async () => {
+  if (isThisPlaying.value) {
+    stop();
+    if (metroLinked.value) stopMetronome();
+  } else {
+    const startTime = await play(props.notes, swingRatio.value);
+    if (metroLinked.value) startMetronomeFrom(startTime);
+  }
+};
+
+const handleMetroToggle = () => {
+  metroLinked.value = !metroLinked.value;
+  if (isThisPlaying.value) {
+    if (metroLinked.value) startMetronomeFrom(getNextDownbeat());
+    else stopMetronome();
+  }
+};
 
 const cursorStyle = computed(() => {
   const pos = notePositions.value[activeNoteIndex.value];
@@ -79,13 +98,20 @@ const createAndDrawTrack = () => {
 
 const debouncedDraw = debounce(createAndDrawTrack, 100);
 
-const toggleSwing = () => {
+const toggleSwing = async () => {
   swingEnabled.value = !swingEnabled.value;
   if (isThisPlaying.value) {
-    toggle(props.notes, swingRatio.value); // stop
-    nextTick(() => toggle(props.notes, swingRatio.value)); // restart with new ratio
+    stop();
+    if (metroLinked.value) stopMetronome();
+    await nextTick();
+    const startTime = await play(props.notes, swingRatio.value);
+    if (metroLinked.value) startMetronomeFrom(startTime);
   }
 };
+
+watch(isThisPlaying, (playing) => {
+  if (!playing && metroLinked.value) stopMetronome();
+}, { flush: 'sync' });
 
 onMounted(async () => {
   await nextTick();
@@ -109,19 +135,40 @@ watch(
 
 <template>
   <ClientOnly>
-    <div class="relative w-full">
-      <div ref="container" class="w-full" />
+    <div class="w-full flex flex-col">
+      <div class="relative w-full">
+        <div ref="container" class="w-full" />
 
-      <div
-        v-if="cursorStyle"
-        class="absolute bg-white opacity-30 pointer-events-none"
-        :style="cursorStyle"
-      />
+        <div
+          v-if="cursorStyle"
+          class="absolute bg-white opacity-30 pointer-events-none"
+          :style="cursorStyle"
+        />
+      </div>
 
-      <div class="absolute top-1 right-1 flex items-center gap-1">
+      <div class="flex items-stretch justify-end gap-1 pt-1 px-1">
+        <input
+          type="number"
+          :value="bpm"
+          min="20"
+          max="300"
+          class="h-9 w-16 bg-transparent border border-white/30 text-white/60 text-sm font-mono text-center px-1 focus:outline-none focus:border-white focus:text-white"
+          @change="bpm = Number(($event.target as HTMLInputElement).value)"
+        />
+
+        <button
+          class="h-9 text-sm font-mono px-3 border transition-opacity leading-none"
+          :class="metroLinked
+            ? 'border-white text-white opacity-80 hover:opacity-100'
+            : 'border-white/30 text-white/30 hover:opacity-60'"
+          @click="handleMetroToggle"
+        >
+          metro
+        </button>
+
         <button
           v-if="props.swing"
-          class="text-sm font-mono px-3 py-2 border transition-opacity leading-none"
+          class="h-9 text-sm font-mono px-3 border transition-opacity leading-none"
           :class="swingEnabled
             ? 'border-white text-white opacity-80 hover:opacity-100'
             : 'border-white/30 text-white/30 hover:opacity-60'"
@@ -131,8 +178,8 @@ watch(
         </button>
 
         <button
-          class="text-sm font-mono px-3 py-2 border border-white text-white opacity-50 hover:opacity-100 transition-opacity flex items-center justify-center"
-          @click="toggle(props.notes, swingRatio)"
+          class="h-9 text-sm font-mono px-3 border border-white text-white opacity-50 hover:opacity-100 transition-opacity flex items-center justify-center"
+          @click="handleToggle"
         >
           <Icon :name="isThisPlaying ? 'mdi:stop' : 'mdi:play'" class="w-4 h-4" />
         </button>

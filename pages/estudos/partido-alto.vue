@@ -36,7 +36,7 @@ const preguicosoNotes: RawNote[] = [
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
         <span class="text-2xl font-bold">Partido Preguiçoso</span>
-        <SharedTrack :notes="preguicosoNotes" />
+        <SharedTrack :notes="preguicosoNotes" time-signature="4/4" />
       </div>
 
       <hr class="border-t border-white w-full" />

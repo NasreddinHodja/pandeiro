@@ -35,7 +35,7 @@ export type SoundConfig = {
 const DEFAULTS: SoundConfig = {
   baseLevelDown: 0.45,
   baseLevelUp: 0.45,
-  accentMult: 2.2,
+  accentMult: 2.60,
   ghostLevelMult: 0.05,
   gr: { startFreq: 180, endFreq: 80, decayMs: 630 },
   ga: { startFreq: 160, endFreq: 55, decayMs: 240 },

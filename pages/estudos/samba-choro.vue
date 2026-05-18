@@ -48,20 +48,20 @@ const bossaNotes: RawNote[] = [
 const dancingAccentsNotes: RawNote[] = [
   { key: "gad", duration: "16" },
   { key: "plu", duration: "16", isAccent: true },
-  { key: "pld", duration: "16" },
-  { key: "plu", duration: "16" },
+  { key: "pld", duration: "16", isGhost: true },
+  { key: "plu", duration: "16", isGhost: true },
   { key: "grd", duration: "16" },
-  { key: "plu", duration: "16" },
+  { key: "plu", duration: "16", isGhost: true },
   { key: "pld", duration: "16", isAccent: true },
   { key: "gru", duration: "16" },
 
   { key: "gad", duration: "16" },
-  { key: "plu", duration: "16" },
+  { key: "plu", duration: "16", isGhost: true },
   { key: "pld", duration: "16", isAccent: true },
-  { key: "plu", duration: "16" },
+  { key: "plu", duration: "16", isGhost: true },
   { key: "grd", duration: "16" },
   { key: "plu", duration: "16", isAccent: true },
-  { key: "pld", duration: "16" },
+  { key: "pld", duration: "16", isGhost: true },
   { key: "gru", duration: "16" },
 ];
 
@@ -77,39 +77,39 @@ const tantanNotes: RawNote[] = [
 ];
 
 const repiqueMaoNotes: RawNote[] = [
-  { key: "gad", duration: "16" },
+  { key: "pld", duration: "16", isGhost: true },
   { key: "plu", duration: "16", isRoll: true },
   { key: "pld", duration: "16" },
-  { key: "tau", duration: "16" },
-  { key: "grd", duration: "16" },
   { key: "plu", duration: "16" },
+  { key: "gad", duration: "16" },
+  { key: "plu", duration: "16", isGhost: true },
   { key: "grd", duration: "16" },
-  { key: "plu", duration: "16" },
+  { key: "plu", duration: "16", isGhost: true },
 
   { key: "gad", duration: "16" },
   { key: "plu", duration: "16", isGhost: true },
-  { key: "pld", duration: "16" },
-  { key: "tau", duration: "16" },
-  { key: "pld", duration: "16" },
+  { key: "pld", duration: "16", isGhost: true },
+  { key: "gau", duration: "16" },
+  { key: "gad", duration: "16" },
   { key: "gru", duration: "16" },
-  { key: "pld", duration: "16" },
-  { key: "tau", duration: "16" },
+  { key: "pld", duration: "16", isGhost: true },
+  { key: "gad", duration: "16" },
 ];
 
 const repiqueAnelNotes: RawNote[] = [
   { key: "gad", duration: "16" },
   { key: "gsu", duration: "16" },
-  { key: "pld", duration: "16" },
+  { key: "pld", duration: "16", isGhost: true },
   { key: "gsu", duration: "16" },
-  { key: "pld", duration: "16" },
+  { key: "pld", duration: "16", isGhost: true },
   { key: "gru", duration: "16" },
   { key: "grd", duration: "16" },
-  { key: "plu", duration: "16" },
+  { key: "plu", duration: "16", isGhost: true },
 
   { key: "gsd", duration: "16" },
-  { key: "plu", duration: "16" },
+  { key: "plu", duration: "16", isGhost: true },
   { key: "gsd", duration: "16" },
-  { key: "plu", duration: "16" },
+  { key: "plu", duration: "16", isGhost: true },
   { key: "grd", duration: "16" },
   { key: "gru", duration: "16" },
   { key: "grd", duration: "16" },
@@ -269,14 +269,14 @@ const viradas: RawNote[][] = [
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
         <span class="text-2xl font-bold">Sotaque - Repique de mão</span>
-        <SharedTrack :notes="repiqueMaoNotes" :swing="true" />
+        <SharedTrack :notes="repiqueMaoNotes" />
       </div>
 
       <hr class="border-t border-white w-full" />
 
       <div class="flex w-full flex-col gap-2 md:gap-5">
         <span class="text-2xl font-bold">Sotaque - Repique de anel</span>
-        <SharedTrack :notes="repiqueAnelNotes" :swing="true" />
+        <SharedTrack :notes="repiqueAnelNotes" />
       </div>
 
       <hr class="border-t border-white w-full" />

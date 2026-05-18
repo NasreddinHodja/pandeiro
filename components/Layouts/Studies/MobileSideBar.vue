@@ -10,7 +10,7 @@ const items = STUDIES_SIDEBAR_ITEMS;
   <Transition name="sidebar">
     <div
       v-if="shouldShow"
-      class="flex flex-col absolute bg-black h-full min-w-60 border-r-2 border-white pt-14 overflow-scroll [scrollbar-width:none] [-ms-overflow-style:none] gap-4 px-4"
+      class="flex flex-col absolute z-10 bg-black h-full min-w-60 border-r-2 border-white pt-14 overflow-scroll [scrollbar-width:none] [-ms-overflow-style:none] gap-4 px-4"
     >
       <div
         v-for="item in items"

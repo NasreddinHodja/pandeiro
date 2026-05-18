@@ -4,7 +4,7 @@ import type { RawNote } from "~/lib/score";
 const shouldShowMobileSidebar = useState("shouldShowMobileSidebar", () => false);
 
 const preguicosoNotes: RawNote[] = [
-  { key: "grd", duration: "16", isParenthesis: true },
+  { key: "rst", duration: "16r" },
   { key: "tau", duration: "8", isDotted: true },
   { key: "grd", duration: "8" },
   { key: "grd", duration: "8" },
@@ -14,17 +14,6 @@ const preguicosoNotes: RawNote[] = [
   { key: "grd", duration: "8" },
   { key: "grd", duration: "16" },
 ];
-
-// const bossaNotes: RawNote[] = [
-//   { key: "gad", duration: "16" },
-//   { key: "plu", duration: "16" },
-//   { key: "pld", duration: "16", isAccent: true },
-//   { key: "plu", duration: "16" },
-//   { key: "grd", duration: "16" },
-//   { key: "plu", duration: "16", isAccent: true },
-//   { key: "pld", duration: "16" },
-//   { key: "gru", duration: "16" },
-// ];
 </script>
 
 <template>

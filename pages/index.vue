@@ -1,13 +1,7 @@
 <script setup lang="ts">
 const options = [
-  {
-    label: "Estudos",
-    to: "/estudos",
-  },
-  {
-    label: "Exercícios",
-    to: "/exercicios",
-  },
+  { label: "Estudos", to: "/estudos" },
+  { label: "Exercícios", to: "/exercicios" },
 ];
 </script>
 

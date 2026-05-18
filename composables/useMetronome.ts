@@ -1,3 +1,5 @@
+import type { Sequence } from "./useAudioEngine";
+
 let metronomeInstance: ReturnType<typeof createMetronome> | null = null;
 
 export const createMetronome = () => {
@@ -6,134 +8,70 @@ export const createMetronome = () => {
   const volume = useCookie<number>("volume", { default: () => 75 });
   const beatCount = useState<number>("beatCount", () => 0);
 
-  const audioContext = ref<AudioContext | null>(null);
-  const tickBuffer = ref<AudioBuffer | null>(null);
-  const gainNode = ref<GainNode | null>(null);
+  const engine = useAudioEngine();
+  let tickBuffer: AudioBuffer | null = null;
+  let gainNode: GainNode | null = null;
+  let seq: Sequence | null = null;
 
-  const nextNoteTime = ref(0);
-  const schedulerInterval = ref<number | null>(null);
-  const lookahead = 25.0;
-  const scheduleAheadTime = 0.1;
-
-  const wasPlaying = ref(false);
-  const debounceTimeout = ref<number | null>(null);
-
-  const loadTickSound = async () => {
-    if (!audioContext.value) return;
+  const loadClick = async () => {
+    const ctx = engine.getContext();
+    if (!ctx || tickBuffer) return;
     const response = await fetch("/click.mp3");
     const arrayBuffer = await response.arrayBuffer();
-    tickBuffer.value = await audioContext.value.decodeAudioData(arrayBuffer);
-  };
-
-  const scheduleNote = (time: number) => {
-    if (!audioContext.value || !tickBuffer.value || !gainNode.value) return;
-    const source = audioContext.value.createBufferSource();
-    source.buffer = tickBuffer.value;
-    source.connect(gainNode.value);
-    source.start(time);
-    beatCount.value++;
-  };
-
-  const scheduler = () => {
-    if (!audioContext.value || audioContext.value.state !== "running") return;
-    const currentTime = audioContext.value.currentTime;
-
-    while (nextNoteTime.value < currentTime + scheduleAheadTime) {
-      scheduleNote(nextNoteTime.value);
-      const secondsPerBeat = 60.0 / bpm.value;
-      nextNoteTime.value += secondsPerBeat;
-    }
+    tickBuffer = await ctx.decodeAudioData(arrayBuffer);
   };
 
   const start = async () => {
-    if (typeof window === "undefined") return;
+    await engine.start();
+    const ctx = engine.getContext()!;
 
-    if (!audioContext.value) {
-      audioContext.value = new AudioContext();
-      await loadTickSound();
-      gainNode.value = audioContext.value.createGain();
-      gainNode.value.gain.value = volume.value / 100;
-      gainNode.value.connect(audioContext.value.destination);
+    if (!gainNode) {
+      gainNode = ctx.createGain();
+      gainNode.gain.value = volume.value / 100;
+      gainNode.connect(ctx.destination);
     }
 
-    beatCount.value = 0;
-    nextNoteTime.value = audioContext.value.currentTime + 0.05;
-    schedulerInterval.value = window.setInterval(scheduler, lookahead);
+    await loadClick();
+
+    seq = {
+      nextTime: ctx.currentTime + 0.05,
+      fire(time) {
+        if (!ctx || !tickBuffer || !gainNode) return;
+        const source = ctx.createBufferSource();
+        source.buffer = tickBuffer;
+        source.connect(gainNode);
+        source.start(time);
+        beatCount.value++;
+      },
+      advance() {
+        this.nextTime += 60 / bpm.value;
+      },
+    };
+
+    engine.register(seq);
     isPlaying.value = true;
+    beatCount.value = 0;
   };
 
   const stop = () => {
-    if (schedulerInterval.value !== null) {
-      clearInterval(schedulerInterval.value);
-      schedulerInterval.value = null;
+    if (seq) {
+      engine.unregister(seq);
+      seq = null;
     }
-
-    if (audioContext.value) {
-      audioContext.value
-        .close()
-        .then(() => {
-          audioContext.value = null;
-        })
-        .catch(err => {
-          console.error("Error closing AudioContext:", err);
-        });
-    }
-
     isPlaying.value = false;
     beatCount.value = 0;
-    nextNoteTime.value = 0;
-    gainNode.value = null;
   };
 
-  const toggle = () => {
-    if (isPlaying.value) {
-      stop();
-    } else {
-      start();
-    }
-  };
+  const toggle = () => (isPlaying.value ? stop() : start());
 
-  const handleBpmChange = () => {
-    if (debounceTimeout.value) {
-      clearTimeout(debounceTimeout.value);
-    }
-
-    if (!wasPlaying.value && isPlaying.value) {
-      wasPlaying.value = true;
-    }
-
-    stop();
-
-    debounceTimeout.value = setTimeout(() => {
-      if (wasPlaying.value) {
-        start();
-        wasPlaying.value = false;
-      }
-    }, 300);
-  };
-
-  watch(bpm, handleBpmChange);
-
-  watch(volume, newVal => {
-    if (gainNode.value) {
-      gainNode.value.gain.value = newVal / 100;
-    }
+  watch(volume, val => {
+    if (gainNode) gainNode.gain.value = val / 100;
   });
 
-  return {
-    isPlaying,
-    bpm,
-    beatCount,
-    volume,
-    toggle,
-    start,
-    stop,
-  };
+  return { isPlaying, bpm, beatCount, volume, toggle, start, stop };
 };
 
 export const useMetronome = () => {
-  if (!metronomeInstance) {
-    metronomeInstance = createMetronome();
-  }
+  if (!metronomeInstance) metronomeInstance = createMetronome();
   return metronomeInstance;
 };

@@ -10,9 +10,12 @@ import VexFlow, {
   Stem,
 } from "vexflow";
 
-const STAFF_Y_SHIFT = -20;
+export const STAFF_Y_SHIFT = 0;
+const ABOVE_STAVE_HEADROOM = 30; // px of viewBox space above y=0 for accents/modifiers
+export const DEFAULT_ROW_HEIGHT = 110;
+// VexFlow stave at y=0: getYForLine(2) === 60, so middle line = stave_y + 60
+export const STAVE_MIDDLE_LINE_OFFSET = 60;
 const MIN_MEASURE_WIDTH = 300;
-const DEFAULT_ROW_HEIGHT = 100;
 
 export type TimeSignature = "2/4" | "4/4";
 
@@ -103,10 +106,14 @@ export class Track {
       this.measureWidth = containerWidth / measuresPerRow - 1;
     }
 
-    this.renderer.resize(
-      this.getContainerWidth(),
-      DEFAULT_ROW_HEIGHT * Math.floor(measureCount / measuresPerRow)
-    );
+    const totalHeight = DEFAULT_ROW_HEIGHT * Math.ceil(measureCount / measuresPerRow);
+    const width = this.getContainerWidth();
+    this.renderer.resize(width, totalHeight + ABOVE_STAVE_HEADROOM);
+
+    const svg = this.container.querySelector("svg");
+    if (svg) {
+      svg.setAttribute("viewBox", `0 -${ABOVE_STAVE_HEADROOM} ${width} ${totalHeight + ABOVE_STAVE_HEADROOM}`);
+    }
 
     measures.forEach((measureNotes, i) => {
       const row = Math.floor(i / measuresPerRow);
@@ -137,7 +144,7 @@ export class Track {
       staff.draw();
 
       const beams = Beam.generateBeams(measureNotes, {
-        stemDirection: Stem.DOWN,
+        stemDirection: Stem.UP,
         maintainStemDirections: true,
       });
 

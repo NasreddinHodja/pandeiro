@@ -15,7 +15,7 @@ const rollNoteContainer = ref<HTMLDivElement | null>(null);
 
 const createAndDrawStave = (container: HTMLDivElement, rawNotes: RawNote[]) => {
   const width = 100;
-  const height = 90;
+  const height = 110;
   const renderer = new Renderer(container, Renderer.Backends.SVG);
 
   renderer.resize(width, height);
@@ -24,7 +24,7 @@ const createAndDrawStave = (container: HTMLDivElement, rawNotes: RawNote[]) => {
   context.setFillStyle("white");
   context.setStrokeStyle("white");
 
-  const stave = new Stave(0, -15, width);
+  const stave = new Stave(0, 5, width);
   stave.setContext(context);
   stave.setConfigForLines([
     { visible: false },

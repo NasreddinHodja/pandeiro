@@ -143,7 +143,6 @@ watch(
           v-if="cursorStyle"
           class="absolute bg-white opacity-30 pointer-events-none"
           :style="cursorStyle"
-          style="transition: left 40ms ease-out, width 40ms ease-out;"
         />
       </div>
 

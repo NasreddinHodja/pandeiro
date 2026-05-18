@@ -156,29 +156,30 @@ onMounted(() => {
       />
     </div>
 
+    <div class="flex-1 w-full overflow-y-auto">
     <div
-      class="flex w-full flex-col gap-4 md:gap-10 py-4 md:py-24 px-5 md:px-28 overflow-scroll pb-24"
+      class="flex flex-col gap-4 md:gap-10 py-4 md:py-24 px-5 md:px-28 pb-24 max-w-3xl mx-auto"
     >
       <span class="text-4xl font-bold">Glossário</span>
       <div class="flex flex-col w-full">
         <div class="flex flex-row gap-10 items-center">
-          <div ref="graveContainer" class="px-4 w-[108px] h-[110px]"></div>
+          <div ref="graveContainer" class="px-4 min-h-[110px]"></div>
           <div>Grave</div>
         </div>
         <div class="flex flex-row gap-10 items-center">
-          <div ref="graveAbafadoContainer" class="px-4 w-[108px] h-[110px]"></div>
+          <div ref="graveAbafadoContainer" class="px-4 min-h-[110px]"></div>
           <div>Grave abafado</div>
         </div>
         <div class="flex flex-row gap-10 items-center">
-          <div ref="platinelaContainer" class="px-4 w-[108px] h-[110px]"></div>
+          <div ref="platinelaContainer" class="px-4 min-h-[110px]"></div>
           <div>Platinela</div>
         </div>
         <div class="flex flex-row gap-10 items-center">
-          <div ref="tapaContainer" class="px-4 w-[108px] h-[110px]"></div>
+          <div ref="tapaContainer" class="px-4 min-h-[110px]"></div>
           <div>Tapa</div>
         </div>
         <div class="flex flex-row gap-10 items-center">
-          <div ref="graveSecoContainer" class="px-4 w-[108px] h-[110px]"></div>
+          <div ref="graveSecoContainer" class="px-4 min-h-[110px]"></div>
           <div>Grave seco (quase tapa)</div>
         </div>
       </div>
@@ -188,19 +189,20 @@ onMounted(() => {
       <div class="flex flex-col w-full">
         <div class="flex flex-col w-full">
           <div class="flex flex-row gap-10 items-center">
-            <div ref="accentContainer" class="px-4 w-[108px] h-[110px]"></div>
+            <div ref="accentContainer" class="px-4 min-h-[110px]"></div>
             <div>Acento</div>
           </div>
           <div class="flex flex-row gap-10 items-center">
-            <div ref="ghostNoteContainer" class="px-4 w-[108px] h-[110px]"></div>
+            <div ref="ghostNoteContainer" class="px-4 min-h-[110px]"></div>
             <div>Toque bem leve</div>
           </div>
           <div class="flex flex-row gap-10 items-center">
-            <div ref="rollNoteContainer" class="px-4 w-[108px] h-[110px]"></div>
+            <div ref="rollNoteContainer" class="px-4 min-h-[110px]"></div>
             <div>Rulo</div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>

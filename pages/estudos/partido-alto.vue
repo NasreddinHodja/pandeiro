@@ -9,9 +9,62 @@ const preguicosoNotes: RawNote[] = [
   { key: "grd", duration: "8" },
   { key: "grd", duration: "8" },
 
-  { key: "grd", duration: "8" },
+  { key: "gad", duration: "8" },
   { key: "tau", duration: "8", isDotted: true },
   { key: "grd", duration: "8" },
+  { key: "gad", duration: "16" },
+];
+const preguicosoVar1Notes: RawNote[] = [
+  { key: "rst", duration: "16r" },
+  { key: "tau", duration: "8" },
+  { key: "tau", duration: "16" },
+  { key: "grd", duration: "8" },
+  { key: "grd", duration: "8" },
+
+  { key: "gad", duration: "8" },
+  { key: "tau", duration: "8", isDotted: true },
+  { key: "grd", duration: "8" },
+  { key: "gad", duration: "16" },
+];
+const preguicosoVar2Notes: RawNote[] = [
+  { key: "rst", duration: "16r" },
+  { key: "tau", duration: "8" },
+  { key: "tau", duration: "16" },
+  { key: "grd", duration: "8" },
+  { key: "grd", duration: "8" },
+
+  { key: "gad", duration: "8" },
+  { key: "tau", duration: "8" },
+  { key: "tau", duration: "16" },
+  { key: "grd", duration: "8" },
+  { key: "gad", duration: "16" },
+];
+const preguicosoVar3Notes: RawNote[] = [
+  { key: "rst", duration: "16r" },
+  { key: "tau", duration: "16" },
+  { key: "pld", duration: "16" },
+  { key: "plu", duration: "16" },
+  { key: "grd", duration: "8" },
+  { key: "grd", duration: "8" },
+
+  { key: "gad", duration: "8" },
+  { key: "tau", duration: "8" },
+  { key: "tau", duration: "16" },
+  { key: "grd", duration: "8" },
+  { key: "gad", duration: "16" },
+];
+const partidoNaRua: RawNote[] = [
+  { key: "gad", duration: "16" },
+  { key: "gad", duration: "8" },
+  { key: "tau", duration: "16" },
+  { key: "grd", duration: "8" },
+  { key: "tau", duration: "8" },
+  { key: "gad", duration: "8" },
+  { key: "tau", duration: "8" },
+
+  { key: "grd", duration: "16" },
+  { key: "grd", duration: "16" },
+  { key: "plu", duration: "16" },
   { key: "grd", duration: "16" },
 ];
 </script>
@@ -42,12 +95,33 @@ const preguicosoNotes: RawNote[] = [
 
         <hr class="border-t border-white w-full" />
 
-        <!-- <div class="flex w-full flex-col gap-2 md:gap-5">
-          <span class="text-2xl font-bold">Sotaque - Bossa Nova</span>
-          <SharedTrack :notes="bossaNotes" />
+        <div class="flex w-full flex-col gap-2 md:gap-5">
+          <span class="text-xl font-bold">Variação 1</span>
+          <SharedTrack :notes="preguicosoVar1Notes" time-signature="4/4" />
         </div>
 
-        <hr class="border-t border-white w-full" /> -->
+        <hr class="border-t border-white w-full" />
+
+        <div class="flex w-full flex-col gap-2 md:gap-5">
+          <span class="text-xl font-bold">Variação 2</span>
+          <SharedTrack :notes="preguicosoVar2Notes" time-signature="4/4" />
+        </div>
+
+        <hr class="border-t border-white w-full" />
+
+        <div class="flex w-full flex-col gap-2 md:gap-5">
+          <span class="text-xl font-bold">Variação 3</span>
+          <SharedTrack :notes="preguicosoVar3Notes" time-signature="4/4" />
+        </div>
+
+        <hr class="border-t border-white w-full" />
+
+        <div class="flex w-full flex-col gap-2 md:gap-5">
+          <span class="text-2xl font-bold">Partido na rua (?)</span>
+          <SharedTrack :notes="partidoNaRua" time-signature="4/4" />
+        </div>
+
+        <hr class="border-t border-white w-full" />
       </div>
     </div>
   </div>
